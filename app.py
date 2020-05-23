@@ -133,6 +133,61 @@ popOPTS = [
     
     
     ]
+tab1 = html.Div([
+    html.H3('Country by Country Information'),
+    dcc.Dropdown(id='countryChoice',
+                 options= countryOPTS,
+                 value = 'US'
+    ),
+     dcc.RadioItems(
+        id = 'whichAvg2',
+    options= whichAvgOPTS,
+    value='sevenday',  labelStyle={'display': 'inline-block'}
+
+    ),
+     dcc.RadioItems(
+         id = 'popratio2',
+         options = popOPTS,
+         value='relpop',
+         labelStyle = {'display':'inline-block'}
+         ),
+    dcc.Graph(id='graph_close')
+    
+])
+
+
+
+
+tab2 = html.Div([
+    html.H3('State by State Information'),
+     dcc.Dropdown(id='stateChoice',
+                 options= stateOPTS,
+                 value = 'CO'
+    ),
+    dcc.RadioItems(
+        id = 'whichAvg',
+    options= whichAvgOPTS,
+    value='threeday',  labelStyle={'display': 'inline-block'}
+
+    ) , 
+    dcc.RadioItems(
+        id = 'popratio',
+        options = popOPTS,
+        value = 'relpop',
+        labelStyle = {'display':'inline-block'}
+        ),
+    dcc.Graph(id='state_graph')
+])    
+
+
+tab3 = html.Div([
+    html.H3('SC Project Information'),
+    dcc.Dropdown(
+        id = 'whichProj',
+        options = projOPTS,
+        value = 'ConEd'
+        ) 
+    ])
 
 
 server = app.server
