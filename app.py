@@ -249,11 +249,7 @@ tab3 = html.Div([
         options = projOPTS,
         value = 'ConEd'
         )
-
-
-    
-    
-    
+   
     ])
 
 app.layout = html.Div([
