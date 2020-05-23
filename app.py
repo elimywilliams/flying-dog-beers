@@ -17,6 +17,11 @@ file_name = 'https://raw.githubusercontent.com/elimywilliams/sc_covid19/master/a
 stateLags = pd.read_csv(file_name)
 stateLags['Date'] = stateLags['datetest'].astype('datetime64[ns]')
 
+######
+px.set_mapbox_access_token('pk.eyJ1IjoiZXdpbGxpYW1zMjAyMCIsImEiOiJja2FpdTIxOXMwM2wzMnFtbmVmb3IzZDJ6In0.TVsQ-iu8bN4PQLkBCr6tQQ')
+
+
+#######
 
 ########### Define your variables
 beers=['Chesapeake Stout', 'Snake Dog IPA', 'Imperial Porter', 'Double Dog IPA']
@@ -58,6 +63,8 @@ beer_fig = go.Figure(data=beer_data, layout=beer_layout)
 ########### Initiate the app
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+#app = dash.Dash(__name__, external_stylesheets=external_stylesheets,suppress_callback_exceptions=True)
+
 server = app.server
 app.title=tabtitle
 
