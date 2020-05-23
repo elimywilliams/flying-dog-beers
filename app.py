@@ -213,6 +213,17 @@ app.layout = html.Div([
              children = tab1)
 ])
 
+@app.callback(dash.dependencies.Output('tabs-content-example', 'children'),
+             [dash.dependencies.Input('tabs-example', 'value')])
+def render_content(tab):
+    if tab == 'tab-1-example':
+        return tab1
+    elif tab == 'tab-2-example':
+        return tab2
+    elif tab == 'tab-3-example':
+        return tab3
+
+
 #@app.callback(dash.dependencies.Output('display-value', 'children'),
 #              [dash.dependencies.Input('dropdown', 'value')])
 #def display_value(value):
