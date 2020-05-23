@@ -2,6 +2,21 @@ import dash
 import dash_core_components as dcc
 import dash_html_components as html
 import plotly.graph_objs as go
+import dash
+from plotly.subplots import make_subplots
+from dash.dependencies import Input, Output
+import plotly.express as px
+import pandas as pd
+
+##### import dataframe
+file_name = 'https://raw.githubusercontent.com/elimywilliams/sc_covid19/master/countryLags.csv'
+countryLags = pd.read_csv(file_name)
+countryLags['Date'] = countryLags['Date'].astype('datetime64[ns]')
+
+file_name = 'https://raw.githubusercontent.com/elimywilliams/sc_covid19/master/allStateLags.csv'
+stateLags = pd.read_csv(file_name)
+stateLags['Date'] = stateLags['datetest'].astype('datetime64[ns]')
+
 
 ########### Define your variables
 beers=['Chesapeake Stout', 'Snake Dog IPA', 'Imperial Porter', 'Double Dog IPA']
