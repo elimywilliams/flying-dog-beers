@@ -192,20 +192,31 @@ tab3 = html.Div([
 
 server = app.server
 
+#app.layout = html.Div([
+#    html.H2('Hello World'),
+#    dcc.Dropdown(
+#        id='dropdown',
+#        options=[{'label': i, 'value': i} for i in ['LA', 'NYC', 'MTL']],
+#        value='LA'
+#    ),
+#    html.Div(id='display-value')
+#])
+
 app.layout = html.Div([
-    html.H2('Hello World'),
-    dcc.Dropdown(
-        id='dropdown',
-        options=[{'label': i, 'value': i} for i in ['LA', 'NYC', 'MTL']],
-        value='LA'
-    ),
-    html.Div(id='display-value')
+    html.H1('Southern Cross Covid Information'),
+    dcc.Tabs(id="tabs-example", value='tab-1-example', children=[
+        dcc.Tab(id="tab-1", label='Country', value='tab-1-example'),
+        dcc.Tab(id="tab-2", label='State', value='tab-2-example'),
+        dcc.Tab(id='tab-3',label='Project',value = 'tab-3-example')
+    ]),
+    html.Div(id='tabs-content-example',
+             children = tab1)
 ])
 
-@app.callback(dash.dependencies.Output('display-value', 'children'),
-              [dash.dependencies.Input('dropdown', 'value')])
-def display_value(value):
-    return 'You have selected "{}"'.format(value)
+#@app.callback(dash.dependencies.Output('display-value', 'children'),
+#              [dash.dependencies.Input('dropdown', 'value')])
+#def display_value(value):
+#    return 'You have selected "{}"'.format(value)
 
 if __name__ == '__main__':
     app.run_server(debug=True)
