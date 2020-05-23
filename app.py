@@ -194,5 +194,251 @@ app.layout = html.Div(children=[
     ]
 )
 
+
+tab1 = html.Div([
+    html.H3('Country by Country Information'),
+    dcc.Dropdown(id='countryChoice',
+                 options= countryOPTS,
+                 value = 'US'
+    ),
+     dcc.RadioItems(
+        id = 'whichAvg2',
+    options= whichAvgOPTS,
+    value='sevenday',  labelStyle={'display': 'inline-block'}
+
+    ),
+     dcc.RadioItems(
+         id = 'popratio2',
+         options = popOPTS,
+         value='relpop',
+         labelStyle = {'display':'inline-block'}
+         ),
+    dcc.Graph(id='graph_close')
+    
+])
+
+
+
+
+tab2 = html.Div([
+    html.H3('State by State Information'),
+     dcc.Dropdown(id='stateChoice',
+                 options= stateOPTS,
+                 value = 'CO'
+    ),
+    dcc.RadioItems(
+        id = 'whichAvg',
+    options= whichAvgOPTS,
+    value='threeday',  labelStyle={'display': 'inline-block'}
+
+    ) , 
+    dcc.RadioItems(
+        id = 'popratio',
+        options = popOPTS,
+        value = 'relpop',
+        labelStyle = {'display':'inline-block'}
+        ),
+    dcc.Graph(id='state_graph')
+])    
+
+
+tab3 = html.Div([
+    html.H3('SC Project Information'),
+    dcc.Dropdown(
+        id = 'whichProj',
+        options = projOPTS,
+        value = 'ConEd'
+        )
+
+
+    
+    
+    
+    ])
+
+app.layout = html.Div([
+    html.H1('Southern Cross Covid Information'),
+    dcc.Tabs(id="tabs-example", value='tab-1-example', children=[
+        dcc.Tab(id="tab-1", label='Country', value='tab-1-example'),
+        dcc.Tab(id="tab-2", label='State', value='tab-2-example'),
+        dcc.Tab(id='tab-3',label='Project',value = 'tab-3-example')
+    ]),
+    html.Div(id='tabs-content-example',
+             children = tab1)
+])
+
+@app.callback(dash.dependencies.Output('tabs-content-example', 'children'),
+             [dash.dependencies.Input('tabs-example', 'value')])
+def render_content(tab):
+    if tab == 'tab-1-example':
+        return tab1
+    elif tab == 'tab-2-example':
+        return tab2
+    elif tab == 'tab-3-example':
+        return tab3
+
+@app.callback(dash.dependencies.Output('graph_close', 'figure'),
+              [dash.dependencies.Input('countryChoice', 'value'),
+               dash.dependencies.Input('whichAvg2','value'),
+               dash.dependencies.Input('popratio2','value')
+               ])
+
+
+def update_country_fig(input_value,which_avg,pop_rat):
+    df = countryLags[countryLags.Country_Region == input_value]
+    if which_avg == 'sevenday':
+        xvals = df.Date
+        yvalDeaths = df.death_7
+        yvalCases = df.mean_7
+        title = 'Weekly Cases and Deaths, ' + input_value
+        yCaseTitle = "Weekly Cases"
+        yDeathTitle = "Weekly Deaths"
+    elif which_avg == 'threeday':
+        xvals = df.Date
+        yvalDeaths = df.death_3
+        yvalCases = df.mean_3
+        title = 'Three-Day Cases and Deaths, ' + input_value
+        yCaseTitle = "Three-Day Cases"
+        yDeathTitle = "Three-Day Deaths"
+    elif which_avg == 'daily':
+        xvals = df.Date
+        yvalDeaths = df.newDeath
+        yvalCases = df.newConfirmed
+        title = 'Daily Cases and Deaths, ' + input_value
+        yCaseTitle = "Daily Cases"
+        yDeathTitle = "Daily Deaths"   
+    elif which_avg == 'total':
+        xvals = df.Date
+        yvalDeaths = df.DeathCountry
+        yvalCases = df.ConfirmedCountry
+        title = 'Total Cases and Deaths, ' + input_value
+        yCaseTitle = "Total Cases"
+        yDeathTitle = "Total Deaths"
+    if pop_rat == 'relpop':
+        yvalDeaths = (yvalDeaths/df.Population)*1e5
+        yvalCases = (yvalCases/df.Population)*1e5
+        #title = title + 'per 100k people'
+        yCaseTitle = yCaseTitle + ' per 100k'
+        yDeathTitle = yDeathTitle + ' per 100k'
+    
+    
+        
+    # Create traces
+    death_data = go.Scatter(
+         x= xvals,
+         y= yvalDeaths,
+         name='Deaths',
+         yaxis = 'y2'
+     )
+    mean_data = go.Scatter(
+         x=xvals,
+         y=yvalCases,
+         name='Cases'
+         # yaxis='y2'
+     )
+     # How do I integrate the layout?
+    layout = go.Layout(
+         title=title,
+         yaxis=dict(
+             title=yCaseTitle
+         ),
+         yaxis2=dict(
+             title=yDeathTitle,
+             overlaying='y',
+             side='right'
+         )
+     )
+       
+    data = [mean_data,death_data]
+
+    return{
+        'data':data,
+        'layout': layout
+        }
+
+@app.callback(dash.dependencies.Output('state_graph', 'figure'),
+              [dash.dependencies.Input('stateChoice', 'value')     ,
+               dash.dependencies.Input('whichAvg','value'),
+               dash.dependencies.Input('popratio','value')
+               ])
+
+def update_state_fig(input_value,which_avg,pop_rat):
+    df = stateLags[stateLags.State == input_value]
+    
+    if which_avg == 'sevenday':
+        xvals = df.Date
+        yvalDeaths = df.death_7
+        yvalCases = df.mean_7
+        title = 'Weekly Cases and Deaths, ' + input_value
+        yCaseTitle = "Weekly Cases"
+        yDeathTitle = "Weekly Deaths"
+    elif which_avg == 'threeday':
+        xvals = df.Date
+        yvalDeaths = df.death_3
+        yvalCases = df.mean_3
+        title = 'Three-Day Cases and Deaths, ' + input_value
+        yCaseTitle = "Three-Day Cases"
+        yDeathTitle = "Three-Day Deaths"
+    elif which_avg == 'daily':
+        xvals = df.Date
+        yvalDeaths = df.newDeath
+        yvalCases = df.newConfirmed
+        title = 'Daily Cases and Deaths, ' + input_value
+        yCaseTitle = "Daily Cases"
+        yDeathTitle = "Daily Deaths"   
+    elif which_avg == 'total':
+        xvals = df.Date
+        yvalDeaths = df.DeathState
+        yvalCases = df.ConfirmedState
+        title = 'Total Cases and Deaths, ' + input_value
+        yCaseTitle = "Total Cases"
+        yDeathTitle = "Total Deaths"
+    if pop_rat == 'relpop':
+        yvalDeaths = (yvalDeaths/df.Population)*1e5
+        yvalCases = (yvalCases/df.Population)*1e5
+        #title = title + 'per 100k people'
+        yCaseTitle = yCaseTitle + ' per 100k'
+        yDeathTitle = yDeathTitle + ' per 100k'
+
+        
+    # Create traces
+    death_data = go.Scatter(
+         x= xvals,
+         y= yvalDeaths,
+         name='Deaths',
+         yaxis = 'y2'
+     )
+    mean_data = go.Scatter(
+         x=xvals,
+         y=yvalCases,
+         name='Cases'
+         # yaxis='y2'
+     )
+     # How do I integrate the layout?
+    layout = go.Layout(
+         title=title,
+         yaxis=dict(
+             title=yCaseTitle
+         ),
+         yaxis2=dict(
+             title=yDeathTitle,
+             overlaying='y',
+             side='right'
+         )
+         #,
+         #legend_orientation="h"
+
+     )
+        
+        
+ 
+  
+   data = [mean_data,death_data]
+    
+    return{
+        'data':data,
+        'layout': layout
+        }
+
 if __name__ == '__main__':
     app.run_server(debug=False)
