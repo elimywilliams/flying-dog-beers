@@ -302,6 +302,88 @@ def update_country_fig(input_value,which_avg,pop_rat):
         'layout': layout
         }
 
+@app.callback(dash.dependencies.Output('state_graph', 'figure'),
+              [dash.dependencies.Input('stateChoice', 'value')     ,
+               dash.dependencies.Input('whichAvg','value'),
+               dash.dependencies.Input('popratio','value')
+               ])
+
+def update_state_fig(input_value,which_avg,pop_rat):
+    df = stateLags[stateLags.State == input_value]
+    
+    if which_avg == 'sevenday':
+        xvals = df.Date
+        yvalDeaths = df.death_7
+        yvalCases = df.mean_7
+        title = 'Weekly Cases and Deaths, ' + input_value
+        yCaseTitle = "Weekly Cases"
+        yDeathTitle = "Weekly Deaths"
+    elif which_avg == 'threeday':
+        xvals = df.Date
+        yvalDeaths = df.death_3
+        yvalCases = df.mean_3
+        title = 'Three-Day Cases and Deaths, ' + input_value
+        yCaseTitle = "Three-Day Cases"
+        yDeathTitle = "Three-Day Deaths"
+    elif which_avg == 'daily':
+        xvals = df.Date
+        yvalDeaths = df.newDeath
+        yvalCases = df.newConfirmed
+        title = 'Daily Cases and Deaths, ' + input_value
+        yCaseTitle = "Daily Cases"
+        yDeathTitle = "Daily Deaths"   
+    elif which_avg == 'total':
+        xvals = df.Date
+        yvalDeaths = df.DeathState
+        yvalCases = df.ConfirmedState
+        title = 'Total Cases and Deaths, ' + input_value
+        yCaseTitle = "Total Cases"
+        yDeathTitle = "Total Deaths"
+    if pop_rat == 'relpop':
+        yvalDeaths = (yvalDeaths/df.Population)*1e5
+        yvalCases = (yvalCases/df.Population)*1e5
+        #title = title + 'per 100k people'
+        yCaseTitle = yCaseTitle + ' per 100k'
+        yDeathTitle = yDeathTitle + ' per 100k'
+
+        
+    # Create traces
+    death_data = go.Scatter(
+         x= xvals,
+         y= yvalDeaths,
+         name='Deaths',
+         yaxis = 'y2'
+     )
+    mean_data = go.Scatter(
+         x=xvals,
+         y=yvalCases,
+         name='Cases'
+         # yaxis='y2'
+     )
+     # How do I integrate the layout?
+    layout = go.Layout(
+         title=title,
+         yaxis=dict(
+             title=yCaseTitle
+         ),
+         yaxis2=dict(
+             title=yDeathTitle,
+             overlaying='y',
+             side='right'
+         )
+         #,
+         #legend_orientation="h"
+
+     )
+        
+
+    data = [mean_data,death_data]
+    
+
+    return{
+        'data':data,
+        'layout': layout
+        }
 
 #@app.callback(dash.dependencies.Output('display-value', 'children'),
 #              [dash.dependencies.Input('dropdown', 'value')])
