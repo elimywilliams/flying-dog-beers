@@ -1,0 +1,13 @@
+﻿Project,Name,business,Status,States,openDate,otherinfo
+ConEd,Con Edison,Field Services,Partial work Stopped,NY,Unknown,
+DukeOH,Duke Energy (OH),Meter,Inside Work Stopped,"OH, KY, IN",Target July 1,
+DomQuest,Dominion Questar,Traditional Inspection,Work Adjustment (A/C),"UT,WY,IN",Unknown,
+WEC_WI,WEC Energy Group (AMI),Meter,Inside Work Stopped,WI,Unknown,
+PeoplesIL,Peoples ,Traditional Inspection,Shutoff Work Stopped,"IL, WI,IN",2020 Return Unlikely,
+Aclara,Aclara ,Project Shut Down,Meter,NY,Unknown,
+DukeIPI,Duke Energy (IPI),Traditional Inspection,Project Shutdown,"OH, KY, IN",Target July 1,
+norwhich,Norwich Public Utilities,Meter,Delayed,"CT,RI",Target July 1,
+Trussville,Trussville,Traditional Inspection,Delayed,AL,Target June 1,
+CPS_TX,City Public Service Unit (CPS),Traditional Inspection,Active,TX,Open,
+DominionSC,Dominion (SC),Traditional Inspection,Active,SC,Open,
+DominionNC,Dominion (NC),Traditional Inspection,Active,NC,Open,
