@@ -27,18 +27,19 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css',
                         ]
 
 
-from PIL import Image
-image_filename = 'http://www.southerncrossinc.com/wp-content/uploads/2019/02/SC-logo-website.png'
+#from PIL import Image
+#image_filename = 'http://www.southerncrossinc.com/wp-content/uploads/2019/02/SC-logo-website.png'
 #image = Image.open(image_filename)
 #image.show()
 
+src=app.get_asset_url('SC-logo-website.jpg')
 
 #from PIL import Image
-import requests
-from io import BytesIO
+#import requests
+#from io import BytesIO
 
-response = requests.get(image_filename)
-img = Image.open(BytesIO(response.content))
+#response = requests.get(image_filename)
+#img = Image.open(BytesIO(response.content))
 
 
 
@@ -605,7 +606,7 @@ app.layout = html.Div(
                 html.Div(
                     [
                         html.Img(
-                            src = img,
+                            src = src,
                             #src='data:image/png;base64,{}'.format(encoded_image.decode()),
                             id="plotly-image",
                             style={
