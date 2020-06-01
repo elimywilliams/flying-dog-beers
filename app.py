@@ -168,7 +168,7 @@ stateOPTS = [
 
 
 #### importing project - specific updates
-file_name = '/Users/emilywilliams/Desktop/projectUpdateInfo.csv'
+file_name = 'https://raw.githubusercontent.com/elimywilliams/sc_covid19/master/projectUpdateInfo.csv'
 file = pd.read_csv(file_name)
 
 px.set_mapbox_access_token('pk.eyJ1IjoiZXdpbGxpYW1zMjAyMCIsImEiOiJja2FpdTIxOXMwM2wzMnFtbmVmb3IzZDJ6In0.TVsQ-iu8bN4PQLkBCr6tQQ')
