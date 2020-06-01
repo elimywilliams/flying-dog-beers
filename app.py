@@ -32,7 +32,7 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css',
 #image = Image.open(image_filename)
 #image.show()
 
-src=app.get_asset_url('SC-logo-website.jpg')
+#src=app.get_asset_url('SC-logo-website.jpg')
 
 #from PIL import Image
 #import requests
@@ -603,21 +603,21 @@ app.layout = html.Div(
         html.Div(id="output-clientside"),
         html.Div(
             [
-                html.Div(
-                    [
-                        html.Img(
-                            src = src,
-                            #src='data:image/png;base64,{}'.format(encoded_image.decode()),
-                            id="plotly-image",
-                            style={
-                                "height": "60px",
-                                "width": "auto",
-                                "margin-bottom": "25px",
-                            },
-                        )
-                    ],
-                    className="one-third column",
-                ),
+               # html.Div(
+               #     [
+               #         html.Img(
+               #             src = src,
+               #             #src='data:image/png;base64,{}'.format(encoded_image.decode()),
+               #             id="plotly-image",
+               #             style={
+               #                 "height": "60px",
+              #                  "width": "auto",
+               #                 "margin-bottom": "25px",
+               #             },
+               #         )
+                #    ],
+                #    className="one-third column",
+               # ),
                 html.Div(
                     [
                         html.Div(
@@ -1413,4 +1413,4 @@ def update_city_fig2(input_value2,which_avg,pop_rat):
 # =============================================================================
 
 if __name__ == '__main__':
-    app.run_server(debug=False)
+    app.run_server(debug=True)
