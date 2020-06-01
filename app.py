@@ -14,10 +14,9 @@ import plotly.graph_objs as go
 from plotly.subplots import make_subplots
 #from dash.dependencies import Input, Output
 import plotly.express as px
-import base64
-
+#import base64
 import json
-from textwrap import dedent as d
+#from textwrap import dedent as d
 
 px.set_mapbox_access_token('pk.eyJ1IjoiZXdpbGxpYW1zMjAyMCIsImEiOiJja2FpdTIxOXMwM2wzMnFtbmVmb3IzZDJ6In0.TVsQ-iu8bN4PQLkBCr6tQQ')
 
@@ -27,13 +26,21 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css',
                         'https://github.com/plotly/dash-app-stylesheets/blob/master/dash-oil-and-gas.css'
                         ]
 
+
 from PIL import Image
+image_filename = 'http://www.southerncrossinc.com/wp-content/uploads/2019/02/SC-logo-website.png'
+#image = Image.open(image_filename)
+#image.show()
+
+
+#from PIL import Image
 import requests
 from io import BytesIO
 
-image_filename = 'http://www.southerncrossinc.com/wp-content/uploads/2019/02/SC-logo-website.png'
 response = requests.get(image_filename)
 img = Image.open(BytesIO(response.content))
+
+
 
 
 file_name = 'https://raw.githubusercontent.com/elimywilliams/sc_covid19/master/countryLags.csv'
@@ -172,7 +179,7 @@ stateOPTS = [
 
 
 #### importing project - specific updates
-file_name = '/Users/emilywilliams/Desktop/projectUpdateInfo.csv'
+file_name = 'https://raw.githubusercontent.com/elimywilliams/sc_covid19/master/projectUpdateInfo.csv'
 file = pd.read_csv(file_name)
 
 px.set_mapbox_access_token('pk.eyJ1IjoiZXdpbGxpYW1zMjAyMCIsImEiOiJja2FpdTIxOXMwM2wzMnFtbmVmb3IzZDJ6In0.TVsQ-iu8bN4PQLkBCr6tQQ')
@@ -1405,4 +1412,4 @@ def update_city_fig2(input_value2,which_avg,pop_rat):
 # =============================================================================
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server(debug=False)
