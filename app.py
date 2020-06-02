@@ -32,15 +32,20 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css',
 #image = Image.open(image_filename)
 #image.show()
 
-#src=app.get_asset_url('SC-logo-website.jpg')
 
 #from PIL import Image
 #import requests
 #from io import BytesIO
 
-#response = requests.get(image_filename)
+##response = requests.get(image_filename)
 #img = Image.open(BytesIO(response.content))
 
+
+file_name = 'https://raw.githubusercontent.com/elimywilliams/sc_covid19/master/usoverall.csv'
+usLagOverall = pd.read_csv(file_name)
+usLagOverall['Date'] = usLagOverall['datetest'].astype('datetime64[ns]')
+usLagOverall['newConfirmed'] = usLagOverall['confirmed_infectionsnz']
+usLagOverall['confirmedCountry'] = usLagOverall['totCases']
 
 
 
@@ -421,21 +426,21 @@ tab1=html.Div([
                                     id="countryName",
                                     className="mini_container",
                                 ),
-                                html.Div(
-                                    [html.H6(id="countryStat"), html.P("Status:")],
-                                    id="countryStatus",
-                                    className="mini_container",
-                                ),
+                                # html.Div(
+                                #     [html.H6(id="countryStat"), html.P("Status:")],
+                                #     id="countryStatus",
+                                #     className="mini_container",
+                                # ),
                                 # html.Div(
                                 #     [html.H6(id="countryStata"), html.P("Country Info:")],
                                 #     id="countryStatus",
                                 #     className="mini_container",
                                 # ),
-                                html.Div(
-                                    [html.H6(id="countryOpen"), html.P("Opening Date:")],
-                                    id="open-date",
-                                    className="mini_container",
-                                ),
+                                # html.Div(
+                                #     [html.H6(id="countryOpen"), html.P("Opening Date:")],
+                                #     id="open-date",
+                                #     className="mini_container",
+                                # ),
                             ],
                             id="info-container-country",
                             className="row container-display",
@@ -532,26 +537,26 @@ tab2=html.Div([
                     [
                         html.Div(
                             [
-                                html.Div(
-                                    [html.H6(id="well_text"), html.P("State:")],
-                                    id="stateName",
-                                    className="mini_container",
-                                ),
-                                html.Div(
-                                    [html.H6(id="gasText"), html.P("Status:")],
-                                    id="stateStatus",
-                                    className="mini_container",
-                                ),
-                                html.Div(
-                                    [html.H6(id="oilText"), html.P("")],
-                                    id="oil",
-                                    className="mini_container",
-                                ),
-                                html.Div(
-                                    [html.H6(id="waterText"), html.P("")],
-                                    id="water",
-                                    className="mini_container",
-                                ),
+                                # html.Div(
+                                #     [html.H6(id="well_text"), html.P("State:")],
+                                #     id="stateName",
+                                #     className="mini_container",
+                                # ),
+                                # html.Div(
+                                #     [html.H6(id="gasText"), html.P("Status:")],
+                                #     id="stateStatus",
+                                #     className="mini_container",
+                                # ),
+                                # html.Div(
+                                #     [html.H6(id="oilText"), html.P("")],
+                                #     id="oil",
+                                #     className="mini_container",
+                                # ),
+                                # html.Div(
+                                #     [html.H6(id="waterText"), html.P("")],
+                                #     id="water",
+                                #     className="mini_container",
+                                # ),
                             ],
                             id="info-container-state",
                             className="row container-display",
@@ -603,21 +608,21 @@ app.layout = html.Div(
         html.Div(id="output-clientside"),
         html.Div(
             [
-               # html.Div(
-               #     [
-               #         html.Img(
-               #             src = src,
-               #             #src='data:image/png;base64,{}'.format(encoded_image.decode()),
-               #             id="plotly-image",
-               #             style={
-               #                 "height": "60px",
-              #                  "width": "auto",
-               #                 "margin-bottom": "25px",
-               #             },
-               #         )
-                #    ],
-                #    className="one-third column",
-               # ),
+                html.Div(
+                    [
+                        #html.Img(
+                        #    src = img,
+                            #src='data:image/png;base64,{}'.format(encoded_image.decode()),
+                        #    id="plotly-image",
+                        #    style={
+                        #        "height": "60px",
+                        #        "width": "auto",
+                        #        "margin-bottom": "25px",
+                        #    },
+                       # )
+                    ],
+                    className="one-third column",
+                ),
                 html.Div(
                     [
                         html.Div(
@@ -1145,52 +1150,71 @@ def update_text4(whichproj):
 
 def update_country_fig(input_value,which_avg,pop_rat):
     df = countryLags[countryLags.Country_Region == input_value]
+    xvalsCases = df.Date
+    xvalsDeaths = df.Date
+    if input_value == 'US':
+        df = usLagOverall
+        df2 = countryLags[countryLags.Country_Region == input_value]
+        xvalsCases = df.Date
+        xvalsDeaths = df2.Date
     if which_avg == 'sevenday':
-        xvals = df.Date
         yvalDeaths = df.death_7
+        if input_value == 'US':
+            yvalDeaths = df2.death_7
         yvalCases = df.mean_7
         title = 'Weekly Cases and Deaths, <br>' + input_value
         yCaseTitle = "Weekly Cases"
         yDeathTitle = "Weekly Deaths"
     elif which_avg == 'threeday':
-        xvals = df.Date
         yvalDeaths = df.death_3
+        if input_value == 'US':
+            yvalDeaths = df2.death_3
         yvalCases = df.mean_3
         title = 'Three-Day Cases and Deaths, <br>' + input_value
         yCaseTitle = "Three-Day Cases"
         yDeathTitle = "Three-Day Deaths"
     elif which_avg == 'daily':
-        xvals = df.Date
-        yvalDeaths = df.newDeath
-        yvalCases = df.newConfirmed
+        if input_value == "US":
+            yvalDeaths = df2.newDeath
+            yvalCases = df.confirmed_infectionsnz
+        elif input_value != "US":
+            yvalDeaths = df.newDeath
+            yvalCases = df.newConfirmed            
         title = 'Daily Cases and Deaths, <br>' + input_value
         yCaseTitle = "Daily Cases"
         yDeathTitle = "Daily Deaths"   
     elif which_avg == 'total':
-        xvals = df.Date
-        yvalDeaths = df.DeathCountry
-        yvalCases = df.ConfirmedCountry
+        if input_value == "US":
+            yvalDeaths = df2.DeathCountry
+            yvalCases = df.totCases
+        elif which_avg != "US":
+            yvalDeaths = df.DeathCountry
+            yvalCases = df.ConfirmedCountry
         title = 'Total Cases and Deaths, <br>' + input_value
         yCaseTitle = "Total Cases"
         yDeathTitle = "Total Deaths"
     if pop_rat == 'relpop':
-        yvalDeaths = (yvalDeaths/df.Population)*1e5
-        yvalCases = (yvalCases/df.Population)*1e5
+        pop = df.Population[0]
+        if input_value == "Italy":
+            pop = 60.36e6
+        
+        yvalDeaths = (yvalDeaths/pop)*1e5
+        yvalCases = (yvalCases/pop)*1e5
         #title = title + 'per 100k people'
         yCaseTitle = yCaseTitle + ' per 100k'
         yDeathTitle = yDeathTitle + ' per 100k'
-    
+
     
         
     # Create traces
     death_data = go.Scatter(
-         x= xvals,
+         x= xvalsDeaths,
          y= yvalDeaths,
          name='Deaths',
          yaxis = 'y2'
      )
     mean_data = go.Scatter(
-         x=xvals,
+         x=xvalsCases,
          y=yvalCases,
          name='Cases'
          # yaxis='y2'
@@ -1413,4 +1437,4 @@ def update_city_fig2(input_value2,which_avg,pop_rat):
 # =============================================================================
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server(debug=False)
