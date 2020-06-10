@@ -16,7 +16,7 @@ from plotly.subplots import make_subplots
 import plotly.express as px
 #import base64
 #import json
-import bs4 as bs
+#import bs4 as bs
 #from textwrap import dedent as d
 
 px.set_mapbox_access_token('pk.eyJ1IjoiZXdpbGxpYW1zMjAyMCIsImEiOiJja2FpdTIxOXMwM2wzMnFtbmVmb3IzZDJ6In0.TVsQ-iu8bN4PQLkBCr6tQQ')
