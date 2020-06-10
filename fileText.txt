@@ -1,0 +1,9 @@
+
+ '<b>
+ <i>
+ <u>Teste de texto</u>
+ </i>
+ </b>
+ <br>
+ <br>
+ <span style="background-color: #FFFF00">Documento número {}</span>'.format(numero)'

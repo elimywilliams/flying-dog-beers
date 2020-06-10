@@ -1,0 +1,28 @@
+
+When entering UK, have to quarantine for 14 days
+
+<ul>
+<li> England </li>
+    <ul>
+  <li> Can meet in groups of up to 6 people outside</li>
+  <li> Masks required</li>
+  <li> Some schools opened; secondary schools not open until at least September</li>
+  <li> June 15 non-essential retail can open with social distancing</li>
+  </ul>
+  
+<li> Scotland </li>
+ <ul>
+  <li> 8 people from two households (social distancing)</li>
+  <li> Schools will open August 11, with some at home learning</li>
+  </ul>
+<li> Wales </li>
+<ul>
+  <li> Two households can meet outside</li>
+  <li> End of June schools will reopen</li>
+  </ul>
+<li> Northern Ireland </li>
+<ul>
+  <li> Groups of 6 people outside; up to 10 people at outdoor wedding</li>
+  <li> Late August phased return for schools</li>
+  </ul>
+</ul>
