@@ -343,16 +343,6 @@ texProj = citLags[citLags.Province_State.isin(['Texas'])].Combined_Key.unique()
 texProjOptions=[{'label': i, 'value': i} for i in texProj]
 
 
-text_markdown = "\t"
-
-with open('/Users/emilywilliams/COVID_py/text.py') as this_file:
-    for a in this_file.read():
-        if "\n" in a:
-            text_markdown += "\n \t"
-        else:
-            text_markdown += a
-
-
 
 #norCarProj = citLags[citLags.Province_State.isin(['North Carolina'])].Combined_Key.unique()
 #norCarProjOptions=[{'label': i, 'value': i} for i in norCarProj]
