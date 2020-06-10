@@ -1,5 +1,4 @@
-
-
 <ul>
-<li> Gradual Reopening </li>
+<li> Restaurants started reopening </li>
+
 </ul>

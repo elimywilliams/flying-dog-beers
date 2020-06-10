@@ -1,6 +1,5 @@
 
 
 <ul>
-<li> </li>
-<li>  </li>
+<li> Reopening Varies State by State </li>
 </ul>
