@@ -723,7 +723,7 @@ app = dash.Dash(__name__, external_stylesheets=external_stylesheets,suppress_cal
 
 server = app.server
 
-image_filename = app.get_asset_url('SC-logo-website.png')
+image_filename = app.get_asset_url('http:///assets/SC-logo-website.png')
 
 response = requests.get(image_filename)
 img = Image.open(BytesIO(response.content))
