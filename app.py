@@ -1196,7 +1196,7 @@ def update_project(whichProj):
         uplat = 200
         lowlon = -200
         uplon = 200
-        title = "Con Edison"
+        title = "Peoples (IL)"
         states = ['Illinois',"Wisconsin","Indiana"]
 
     elif whichProj == "Aclara":
