@@ -22,7 +22,7 @@ import dash_html_components as html
 import requests 
 from PIL import Image
 from io import BytesIO
-image_filename = 'http://www.southerncrossinc.com/wp-content/uploads/2019/02/SC-logo-website.png'
+image_filename = app.get_asset_url('SC-logo-website.png')
 
 response = requests.get(image_filename)
 img = Image.open(BytesIO(response.content))
