@@ -120,7 +120,7 @@ stateLags = stateLags.loc[stateLags.Date> "2020-03-01",:]
 file_name = 'https://raw.githubusercontent.com/elimywilliams/sc_covid19/master/citiInfo.csv'
 citInfo2 = pd.read_csv(file_name)
 citInfo2['Date'] = citInfo2['Date'].astype('datetime64[ns]')
-citInfo = citInfo2.loc[citInfo2.Date> "2020-03-15",:]
+citInfo = citInfo2.loc[citInfo2.Date> "2020-04-15",:]
 
 
 file_name = 'https://raw.githubusercontent.com/elimywilliams/sc_covid19/master/uspreddat.csv'
