@@ -21,7 +21,7 @@ import bs4 as bs
 import dash_html_components as html
 import requests 
 from PIL import Image
-
+from io import BytesIO
 image_filename = 'http://www.southerncrossinc.com/wp-content/uploads/2019/02/SC-logo-website.png'
 
 response = requests.get(image_filename)
