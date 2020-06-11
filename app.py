@@ -20,9 +20,6 @@ import json
 import bs4 as bs
 import dash_html_components as html
 import requests 
-from PIL import Image
-from io import BytesIO
-
 def retorna_documento(numero):
     if (numero == "Spain"):
         name = 'https://raw.githubusercontent.com/elimywilliams/sc_covid19/master/spainInfo.txt'
@@ -48,8 +45,7 @@ def retorna_documento(numero):
         name = 'https://raw.githubusercontent.com/elimywilliams/sc_covid19/master/nzInfo.txt'
     elif (numero == 'US'):
         name = 'https://raw.githubusercontent.com/elimywilliams/sc_covid19/master/usInfo.txt'
-    url = name
-    page = requests.get(url)
+    page = requests.get(name)
     html_doc = page.text.replace('/n','')
     #with open(name, 'r') as file:
     #    html_doc = file.read().replace('\n', '')    
@@ -84,8 +80,19 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css',
                         'https://github.com/plotly/dash-app-stylesheets/blob/master/dash-oil-and-gas.css'
                         ]
 
+
+#from PIL import Image
+#image_filename = 'http://www.southerncrossinc.com/wp-content/uploads/2019/02/SC-logo-website.png'
+#image = Image.open(image_filename)
+#image.show()
+
+
 #from PIL import Image
 import requests
+from io import BytesIO
+
+#response = requests.get(image_filename)
+#img = Image.open(BytesIO(response.content))
 
 
 file_name = 'https://raw.githubusercontent.com/elimywilliams/sc_covid19/master/usoverall.csv'
@@ -93,6 +100,7 @@ usLagOverall = pd.read_csv(file_name)
 usLagOverall['Date'] = usLagOverall['datetest'].astype('datetime64[ns]')
 usLagOverall['newConfirmed'] = usLagOverall['confirmed_infectionsnz']
 usLagOverall['confirmedCountry'] = usLagOverall['totCases']
+
 
 
 file_name = 'https://raw.githubusercontent.com/elimywilliams/sc_covid19/master/countryLags.csv'
@@ -150,18 +158,24 @@ popOPTS = [
     
     ]
 
-countryOPTS = [{'label': 'Spain', 'value': 'Spain'},
+countryOPTS = [
+            {'label': 'United States of America', 'value': 'US'},
             {'label': 'Italy', 'value': 'Italy'},
+
+            {'label': 'Spain', 'value': 'Spain'},
+            {'label': 'United Kingdom', 'value': 'United Kingdom'},
+
+            {'label': 'Australia', 'value': 'Australia'},
+
+            
             {'label': 'Sweden', 'value': 'Sweden'},
             {'label': 'Switzerland', 'value': 'Switzerland'},
-            {'label': 'Australia', 'value': 'Australia'},
             {'label': 'Austria', 'value': 'Austria'},
             {'label': 'France', 'value': 'France'},
             {'label': 'Germany', 'value': 'Germany'},
             {'label': 'Turkey', 'value': 'Turkey'},
-            {'label': 'United States of America', 'value': 'US'},
+            
             {'label': 'New Zealand', 'value': 'New Zealand'},
-            {'label': 'United Kingdom', 'value': 'United Kingdom'},
             ]
 
 stateOPTS = [
@@ -235,6 +249,8 @@ file_name = 'https://raw.githubusercontent.com/elimywilliams/sc_covid19/master/p
 file = pd.read_csv(file_name)
 
 px.set_mapbox_access_token('pk.eyJ1IjoiZXdpbGxpYW1zMjAyMCIsImEiOiJja2FpdTIxOXMwM2wzMnFtbmVmb3IzZDJ6In0.TVsQ-iu8bN4PQLkBCr6tQQ')
+
+
 
 file_name = 'https://raw.githubusercontent.com/elimywilliams/sc_covid19/master/cityProjLags.csv'
 citLags= pd.read_csv(file_name)
@@ -330,6 +346,25 @@ norProjOptions=[{'label': i, 'value': i} for i in norProj]
 
 texProj = citLags[citLags.Province_State.isin(['Texas'])].Combined_Key.unique()
 texProjOptions=[{'label': i, 'value': i} for i in texProj]
+
+
+text_markdown = "\t"
+
+with open('/Users/emilywilliams/COVID_py/text.py') as this_file:
+    for a in this_file.read():
+        if "\n" in a:
+            text_markdown += "\n \t"
+        else:
+            text_markdown += a
+
+
+
+#norCarProj = citLags[citLags.Province_State.isin(['North Carolina'])].Combined_Key.unique()
+#norCarProjOptions=[{'label': i, 'value': i} for i in norCarProj]
+
+
+#southCarProj = citLags[citLags.Province_State.isin(['South Carolina'])].Combined_Key.unique()
+#southCarProjOptions=[{'label': i, 'value': i} for i in southCarProj]
 
 fnameDict = {'ConEd': conEDProjOptions, 
              'DukeOH':ohProjOptions,
@@ -546,11 +581,11 @@ tab1=html.Div([
                     [
                         html.Div(
                             [
-                                #html.Div(
-                                #    [html.H6(id="countryText"), html.P("Country:")],
-                                #    id="countryName",
-                                #    className="mini_container",
-                                #),
+                                html.Div(
+                                    [html.H6(id="countryText"), html.P("Country:")],
+                                    id="countryName",
+                                    className="mini_container",
+                                ),
                                 
                                 # html.Div(
                                 #     [html.H6(id="countryStat"), ],
@@ -676,7 +711,26 @@ tab2=html.Div([
                     [
                         html.Div(
                             [
-                                
+                                # html.Div(
+                                #     [html.H6(id="well_text"), html.P("State:")],
+                                #     id="stateName",
+                                #     className="mini_container",
+                                # ),
+                                # html.Div(
+                                #     [html.H6(id="gasText"), html.P("Status:")],
+                                #     id="stateStatus",
+                                #     className="mini_container",
+                                # ),
+                                # html.Div(
+                                #     [html.H6(id="oilText"), html.P("")],
+                                #     id="oil",
+                                #     className="mini_container",
+                                # ),
+                                # html.Div(
+                                #     [html.H6(id="waterText"), html.P("")],
+                                #     id="water",
+                                #     className="mini_container",
+                                # ),
                             ],
                             id="info-container-state",
                             className="row container-display",
@@ -716,18 +770,72 @@ tab2=html.Div([
         # )
         ])
 
+#import base64
+#import pdf2image
+#encoded_image = base64.b64encode(open('DR0104_2019-2.pdf', "rb").read())
+#PDF = html.Img(src=encoded_image.decode())
+
+#asset_report_fp = open('DR0104_2019-2.pdf', "rb")
+##asset_report_bytes = asset_report_fp.read()
+#encoded_image = convert_from_bytes(asset_report_bytes)
+
+
+tab4=html.Div([
+    html.Div(
+            [
+            
+                html.Div(
+                    [
+                        html.Div(
+                            [ ],
+                            id="info-container-state",
+                            className="row container-display",
+                        ),
+                    ],
+                    id="right-column",
+                    className="eight columns",
+                ),
+            ],
+            className="row flex-display",
+        ),
+        html.Div(
+            [
+                html.Div(html.Iframe(src='/Users/emilywilliams/COVID_py/DR0104_2019-2.pdf'),
+                    className="pretty_container twelve columns",
+                ),
+                #html.Div(
+                #    [html.Div("does this work?")],
+                #    className="pretty_container five columns",
+                #),
+            ],
+            className="row flex-display",
+        ),
+        # html.Div(
+        #     [
+        #         html.Div(
+        #             [dcc.Graph(id="pie_graph2")],
+        #             className="pretty_container seven columns",
+        #         ),
+        #         html.Div(
+        #             [dcc.Graph(id="aggregate_graph")],
+        #             className="pretty_container five columns",
+        #         ),
+        #     ],
+        #     className="row flex-display",
+        # )
+        ])
+#html.Div(className = 'container',children = [html.Iframe(src='DR0104_2019-2.pdf')])
+    
+    
+    #hildren = [dcc.Markdown(text_markdown)])
+
+
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets,suppress_callback_exceptions=True,
                  meta_tags=[{"name": "viewport", "content": "width=device-width"}]
 )
 
 server = app.server
-
-
-#response = requests.get(image_filename)
-#img = Image.open(BytesIO(response.content))
-
-
 
 app.layout = html.Div(
     [
@@ -737,7 +845,7 @@ app.layout = html.Div(
             [
                 html.Div(
                     [
-                       html.Div("")
+                        html.Div("."
                     ],
                     className="one-third column",
                 ),
@@ -773,6 +881,7 @@ app.layout = html.Div(
                                   dcc.Tab(id="tab-1", label='Country', value='tab-1-example'),
                                   dcc.Tab(id="tab-2", label='State', value='tab-2-example'),
                                   dcc.Tab(id='tab-3',label='Project',value = 'tab-3-example'),
+                                 # dcc.Tab(id= 'tab-4',label = 'Weekly Info',value = 'tab-4-example')
                                   ])
 
                             ]
@@ -807,6 +916,8 @@ def render_content(tab):
         return tab2
     elif tab == 'tab-3-example':
         return tab3
+    #elif tab == 'tab-4-example':
+    #    return tab4
 
 
 
@@ -902,7 +1013,19 @@ def update_state_fig(input_value,which_avg,pop_rat):
 
 def update_state_fig2(input_value,which_avg,pop_rat):
     df = predInf[predInf.StateAbr == input_value]
-   
+    
+   #xvals = df.Date
+   # yvalDeaths = df.death_7
+   # yvalCases = df.mean_7
+   # yCaseTitle = "Weekly Cases"
+   # yDeathTitle = "Weekly Deaths"
+    
+    # if pop_rat == 'relpop':
+    #     yvalDeaths = (yvalDeaths/df.Population)*1e5
+    #     yvalCases = (yvalCases/df.Population)*1e5
+    #     #title = title + 'per 100k people'
+    #     yCaseTitle = yCaseTitle + ' per 100k'
+    #     yDeathTitle = yDeathTitle + ' per 100k'
     
     yup = df['est_infections_upper']
     ylow = df['est_infections_lower']
@@ -1103,7 +1226,67 @@ def update_project(whichProj):
         title = "Norwich"
         states = ["Connecticut","Rhode Island"]
 
+# =============================================================================
+#     elif whichProj == "Trussville":
+#         lat = 33.7
+#         lon = -86.9
+#         zoom = 6
+#         lowlat = 32.7
+#         uplat = 34.4
+#         lowlon = -88
+#         uplon = -86
+#         zoom = 7
+#         lowlat = -200
+#         uplat = 200
+#         lowlon = -200
+#         uplon = 200
+#         title = "Trussville"
+#         states = ['Alabama']
+# =============================================================================
 
+# =============================================================================
+#     elif whichProj == "CPS_TX":
+#         lat = 32.76
+#         lon = -96.7
+#         zoom = 6
+#         lowlat = 32.7
+#         uplat = 34.4
+#         lowlon = -88
+#         uplon = -86
+#         zoom = 7
+#         lowlat = -200
+#         uplat = 200
+#         lowlon = -200
+#         uplon = 200
+#         title = "CPS, Texas"
+#         states = ['Texas']
+# 
+# =============================================================================
+# =============================================================================
+#     elif whichProj == "DominionSC":
+#         lat = 34
+#         lon = -80.9
+#         zoom = 6
+#         lowlat = -200
+#         uplat = 200
+#         lowlon = -200
+#         uplon = 200
+#         title = "Dominion, SC"
+#         states = ['South Carolina']
+# 
+#     elif whichProj == "DominionNC":
+#         lat = 35.79
+#         lon = -80.2
+#         zoom = 5.6
+#         lowlat = -200
+#         uplat = 200
+#         lowlon = -200
+#         uplon = 200
+#         title = "Dominion, NC"
+#         states = ['North Carolina']
+#     
+# =============================================================================
+    
     usedat = citInfo[citInfo.Province_State.isin(states)]
     usedat = usedat[usedat.Lat<uplat]
     usedat = usedat[usedat.Lat>lowlat]
@@ -1259,6 +1442,10 @@ def update_country_fig(input_value,which_avg,pop_rat):
         pop = float(df.Population.drop_duplicates())
         if input_value == "Italy":
             pop = 60.36e6
+        if input_value == "United Kingdom":
+            pop = 66.65e6
+        if input_value == "New Zealand":
+            pop = 4.886e6
         
         yvalDeaths = (yvalDeaths/pop)*1e5
         yvalCases = (yvalCases/pop)*1e5
@@ -1407,6 +1594,96 @@ def update_city_fig2(input_value2,which_avg,pop_rat):
         'layout': layout
         }
 
+# =============================================================================
+# 
+# @app.callback(dash.dependencies.Output('cityGraph','figure'),
+#               [dash.dependencies.Input('whichCity','value'),
+#                dash.dependencies.Input('whichavg','value'),
+#                dash.dependencies.Input('popratio', 'value')
+#         
+#                ]             
+#               )
+# 
+# def update_city_fig(input_value,which_avg,pop_rat):
+#     df = citLags[citLags.Combined_Key == input_value]
+#     
+#     if which_avg == 'sevenday':
+#         xvals = df.Date
+#         yvalDeaths = df.death_7
+#         yvalCases = df.mean_7
+#         title = 'Weekly Cases and Deaths, ' + input_value
+#         yCaseTitle = "Weekly Cases"
+#         yDeathTitle = "Weekly Deaths"
+#     elif which_avg == 'threeday':
+#         xvals = df.Date
+#         yvalDeaths = df.death_3
+#         yvalCases = df.mean_3
+#         title = 'Three-Day Cases and Deaths, ' + input_value
+#         yCaseTitle = "Three-Day Cases"
+#         yDeathTitle = "Three-Day Deaths"
+#     elif which_avg == 'daily':
+#         xvals = df.Date
+#         yvalDeaths = df.newDeath
+#         yvalCases = df.newConfirmed
+#         title = 'Daily Cases and Deaths, ' + input_value
+#         yCaseTitle = "Daily Cases"
+#         yDeathTitle = "Daily Deaths"   
+#     elif which_avg == 'total':
+#         xvals = df.Date
+#         yvalDeaths = df.Deaths
+#         yvalCases = df.Confirmed
+#         title = 'Total Cases and Deaths, ' + input_value
+#         yCaseTitle = "Total Cases"
+#         yDeathTitle = "Total Deaths"
+#     if pop_rat == 'relpop':
+#         yvalDeaths = (yvalDeaths/df.Population)*1e5
+#         yvalCases = (yvalCases/df.Population)*1e5
+#         #title = title + 'per 100k people'
+#         yCaseTitle = yCaseTitle + ' per 100k'
+#         yDeathTitle = yDeathTitle + ' per 100k'
+#     
+#     
+#         
+#     # Create traces
+#     death_data = go.Scatter(
+#          x= xvals,
+#          y= yvalDeaths,
+#          name='Deaths',
+#          yaxis = 'y2'
+#      )
+#     mean_data = go.Scatter(
+#          x=xvals,
+#          y=yvalCases,
+#          name='Cases'
+#          # yaxis='y2'
+#      )
+#      # How do I integrate the layout?
+#     layout = go.Layout(
+#          title=title,
+#          yaxis=dict(
+#              title=yCaseTitle,
+#              range = [0,yvalCases.max()]
+#          ),
+#          yaxis2=dict(
+#              title=yDeathTitle,
+#              overlaying='y',
+#              side='right',
+#              range = [0,yvalDeaths.max()]
+#          ),
+#          legend_orientation="h",
+# 
+#          
+#      )
+#        
+#     data = [mean_data,death_data]
+# 
+#     return{
+#         'data':data,
+#         'layout': layout
+#         }
+# 
+# 
+# =============================================================================
 
 if __name__ == '__main__':
     app.run_server(debug=False)
