@@ -736,7 +736,16 @@ app.layout = html.Div(
             [
                 html.Div(
                     [
-                       html.Div("SC")
+                       html.Img(
+                            src = img,
+                            #src='data:image/png;base64,{}'.format(encoded_image.decode()),
+                            id="plotly-image",
+                            style={
+                                "height": "60px",
+                                "width": "auto",
+                                "margin-bottom": "25px",
+                            },
+                        )
                     ],
                     className="one-third column",
                 ),
