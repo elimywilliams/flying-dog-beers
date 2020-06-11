@@ -89,7 +89,7 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css',
 
 #from PIL import Image
 import requests
-from io import BytesIO
+#from io import BytesIO
 
 #response = requests.get(image_filename)
 #img = Image.open(BytesIO(response.content))
@@ -100,21 +100,28 @@ usLagOverall = pd.read_csv(file_name)
 usLagOverall['Date'] = usLagOverall['datetest'].astype('datetime64[ns]')
 usLagOverall['newConfirmed'] = usLagOverall['confirmed_infectionsnz']
 usLagOverall['confirmedCountry'] = usLagOverall['totCases']
+usLagOverall = usLagOverall.loc[usLagOverall.Date> "2020-03-01",:]
 
 
 
 file_name = 'https://raw.githubusercontent.com/elimywilliams/sc_covid19/master/countryLags.csv'
 countryLags = pd.read_csv(file_name)
 countryLags['Date'] = countryLags['Date'].astype('datetime64[ns]')
+countryLags = countryLags.loc[countryLags.Date> "2020-03-01",:]
+
+
 
 file_name = 'https://raw.githubusercontent.com/elimywilliams/sc_covid19/master/allStateLags.csv'
 stateLags = pd.read_csv(file_name)
 stateLags['Date'] = stateLags['datetest'].astype('datetime64[ns]')
+stateLags = stateLags.loc[stateLags.Date> "2020-03-01",:]
 
 
 file_name = 'https://raw.githubusercontent.com/elimywilliams/sc_covid19/master/citiInfo.csv'
-citInfo = pd.read_csv(file_name)
-citInfo['Date'] = citInfo['Date'].astype('datetime64[ns]')
+citInfo2 = pd.read_csv(file_name)
+citInfo2['Date'] = citInfo2['Date'].astype('datetime64[ns]')
+citInfo = citInfo2.loc[citInfo2.Date> "2020-03-15",:]
+
 
 file_name = 'https://raw.githubusercontent.com/elimywilliams/sc_covid19/master/uspreddat.csv'
 predInf = pd.read_csv(file_name)
@@ -253,8 +260,9 @@ px.set_mapbox_access_token('pk.eyJ1IjoiZXdpbGxpYW1zMjAyMCIsImEiOiJja2FpdTIxOXMwM
 
 
 file_name = 'https://raw.githubusercontent.com/elimywilliams/sc_covid19/master/cityProjLags.csv'
-citLags= pd.read_csv(file_name)
-citLags['Date'] = citLags['date'].astype('datetime64[ns]')
+citLags2= pd.read_csv(file_name)
+citLags2['Date'] = citLags2['date'].astype('datetime64[ns]')
+citLags = citLags2.loc[citLags2.Date> "2020-03-15",:]
 
 
 trussProj = citLags[citLags.Province_State.isin(['Alabama'])].Combined_Key.unique()
@@ -348,6 +356,18 @@ texProj = citLags[citLags.Province_State.isin(['Texas'])].Combined_Key.unique()
 texProjOptions=[{'label': i, 'value': i} for i in texProj]
 
 
+# =============================================================================
+# text_markdown = "\t"
+# 
+# with open('/Users/emilywilliams/COVID_py/text.py') as this_file:
+#     for a in this_file.read():
+#         if "\n" in a:
+#             text_markdown += "\n \t"
+#         else:
+#             text_markdown += a
+# 
+# 
+# =============================================================================
 
 #norCarProj = citLags[citLags.Province_State.isin(['North Carolina'])].Combined_Key.unique()
 #norCarProjOptions=[{'label': i, 'value': i} for i in norCarProj]
@@ -667,16 +687,16 @@ tab2=html.Div([
                             value = 'CO',
                             className="dcc_control",
                         ),
-                        html.P("Choose Related City:", className="control_label"),
-                        dcc.Dropdown(
-                            id="whichCity",
+                        #html.P("Choose Related City:", className="control_label"),
+                        #dcc.Dropdown(
+                        #    id="whichCity",
                             #options=[{'label':opt, 'value':opt} for opt in stat_nestedOptions],
                             #value = stat_nestedOptions[0],
                             #options=well_type_options,
                             #multi=True,
                             #value=list(WELL_TYPES.keys()),
-                            className="dcc_control",
-                        ),
+                         #   className="dcc_control",
+                        #),
                         dcc.RadioItems(
                             id="whichavgstate",
                             options=whichAvgOPTS,
@@ -825,8 +845,7 @@ app = dash.Dash(__name__, external_stylesheets=external_stylesheets,suppress_cal
                  meta_tags=[{"name": "viewport", "content": "width=device-width"}]
 )
 
-server = app.server
-
+server=app.server
 app.layout = html.Div(
     [
         dcc.Store(id="aggregate_data"),
@@ -835,7 +854,16 @@ app.layout = html.Div(
             [
                 html.Div(
                     [
-                        html.Div("."),
+                        #html.Img(
+                        #    src = img,
+                            #src='data:image/png;base64,{}'.format(encoded_image.decode()),
+                         #   id="plotly-image",
+                         #   style={
+                         #       "height": "60px",
+                         #       "width": "auto",
+                         #       "margin-bottom": "25px",
+                         #   },
+                        )
                     ],
                     className="one-third column",
                 ),
@@ -865,7 +893,7 @@ app.layout = html.Div(
                                     style={"margin-bottom": "0px"},
                                 ),
                                 html.H5(
-                                    "6/10/20", style={"margin-top": "0px"}
+                                    "6/11/20", style={"margin-top": "0px"}
                                 ),
                               dcc.Tabs(id="tabs-example", value='tab-1-example', children=[
                                   dcc.Tab(id="tab-1", label='Country', value='tab-1-example'),
@@ -924,16 +952,16 @@ def update_state_fig(input_value,which_avg,pop_rat):
         xvals = df.Date
         yvalDeaths = df.death_7/7
         yvalCases = df.mean_7/7
-        title = 'Weekly Cases and Deaths, <br> ' + input_value
-        yCaseTitle = "Weekly Cases"
-        yDeathTitle = "Weekly Deaths"
+        title = 'Cases and Deaths (7 day avg), <br> ' + input_value
+        yCaseTitle = " Cases"
+        yDeathTitle = " Deaths"
     elif which_avg == 'threeday':
         xvals = df.Date
         yvalDeaths = df.death_3/3
         yvalCases = df.mean_3/3
-        title = 'Three-Day Cases and Deaths, <br>' + input_value
-        yCaseTitle = "Three-Day Cases"
-        yDeathTitle = "Three-Day Deaths"
+        title = ' Cases and Deaths (3 day avg), <br>' + input_value
+        yCaseTitle = "Cases"
+        yDeathTitle = "Deaths"
     elif which_avg == 'daily':
         xvals = df['Date']
         yvalDeaths = df.deaths_mnnz
@@ -1398,8 +1426,8 @@ def update_country_fig(input_value,which_avg,pop_rat):
             yvalDeaths = df2.death_7/7
         yvalCases = df.mean_7/7
         title = 'Cases and Deaths (7 Day Avg), <br>' + input_value
-        yCaseTitle = "Weekly Cases"
-        yDeathTitle = "Weekly Deaths"
+        yCaseTitle = "Cases"
+        yDeathTitle = "Deaths"
     elif which_avg == 'threeday':
         yvalDeaths = df.death_3/3
         if input_value == 'US':
@@ -1514,15 +1542,15 @@ def update_city_fig2(input_value2,which_avg,pop_rat):
         yvalDeaths = df.death_7/7
         yvalCases = df.mean_7/7
         title = 'Cases and Deaths (7 Day Avg), <br>' + input_value
-        yCaseTitle = "Weekly Cases"
-        yDeathTitle = "Weekly Deaths"
+        yCaseTitle = " Cases"
+        yDeathTitle = " Deaths"
     elif which_avg == 'threeday':
         xvals = df.Date
         yvalDeaths = df.death_3/3
         yvalCases = df.mean_3/3
         title = 'Cases and Deaths (3 Day Avg), <br> ' + input_value
-        yCaseTitle = "Three-Day Cases"
-        yDeathTitle = "Three-Day Deaths"
+        yCaseTitle = " Cases"
+        yDeathTitle = " Deaths"
     elif which_avg == 'daily':
         xvals = df.Date
         yvalDeaths = df.newDeath
@@ -1584,96 +1612,7 @@ def update_city_fig2(input_value2,which_avg,pop_rat):
         'layout': layout
         }
 
-# =============================================================================
-# 
-# @app.callback(dash.dependencies.Output('cityGraph','figure'),
-#               [dash.dependencies.Input('whichCity','value'),
-#                dash.dependencies.Input('whichavg','value'),
-#                dash.dependencies.Input('popratio', 'value')
-#         
-#                ]             
-#               )
-# 
-# def update_city_fig(input_value,which_avg,pop_rat):
-#     df = citLags[citLags.Combined_Key == input_value]
-#     
-#     if which_avg == 'sevenday':
-#         xvals = df.Date
-#         yvalDeaths = df.death_7
-#         yvalCases = df.mean_7
-#         title = 'Weekly Cases and Deaths, ' + input_value
-#         yCaseTitle = "Weekly Cases"
-#         yDeathTitle = "Weekly Deaths"
-#     elif which_avg == 'threeday':
-#         xvals = df.Date
-#         yvalDeaths = df.death_3
-#         yvalCases = df.mean_3
-#         title = 'Three-Day Cases and Deaths, ' + input_value
-#         yCaseTitle = "Three-Day Cases"
-#         yDeathTitle = "Three-Day Deaths"
-#     elif which_avg == 'daily':
-#         xvals = df.Date
-#         yvalDeaths = df.newDeath
-#         yvalCases = df.newConfirmed
-#         title = 'Daily Cases and Deaths, ' + input_value
-#         yCaseTitle = "Daily Cases"
-#         yDeathTitle = "Daily Deaths"   
-#     elif which_avg == 'total':
-#         xvals = df.Date
-#         yvalDeaths = df.Deaths
-#         yvalCases = df.Confirmed
-#         title = 'Total Cases and Deaths, ' + input_value
-#         yCaseTitle = "Total Cases"
-#         yDeathTitle = "Total Deaths"
-#     if pop_rat == 'relpop':
-#         yvalDeaths = (yvalDeaths/df.Population)*1e5
-#         yvalCases = (yvalCases/df.Population)*1e5
-#         #title = title + 'per 100k people'
-#         yCaseTitle = yCaseTitle + ' per 100k'
-#         yDeathTitle = yDeathTitle + ' per 100k'
-#     
-#     
-#         
-#     # Create traces
-#     death_data = go.Scatter(
-#          x= xvals,
-#          y= yvalDeaths,
-#          name='Deaths',
-#          yaxis = 'y2'
-#      )
-#     mean_data = go.Scatter(
-#          x=xvals,
-#          y=yvalCases,
-#          name='Cases'
-#          # yaxis='y2'
-#      )
-#      # How do I integrate the layout?
-#     layout = go.Layout(
-#          title=title,
-#          yaxis=dict(
-#              title=yCaseTitle,
-#              range = [0,yvalCases.max()]
-#          ),
-#          yaxis2=dict(
-#              title=yDeathTitle,
-#              overlaying='y',
-#              side='right',
-#              range = [0,yvalDeaths.max()]
-#          ),
-#          legend_orientation="h",
-# 
-#          
-#      )
-#        
-#     data = [mean_data,death_data]
-# 
-#     return{
-#         'data':data,
-#         'layout': layout
-#         }
-# 
-# 
-# =============================================================================
+
 
 if __name__ == '__main__':
     app.run_server(debug=False)
