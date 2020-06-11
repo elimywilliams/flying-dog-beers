@@ -723,10 +723,9 @@ app = dash.Dash(__name__, external_stylesheets=external_stylesheets,suppress_cal
 
 server = app.server
 
-image_filename = app.get_asset_url('http:///assets/SC-logo-website.png')
 
-response = requests.get(image_filename)
-img = Image.open(BytesIO(response.content))
+#response = requests.get(image_filename)
+#img = Image.open(BytesIO(response.content))
 
 
 
@@ -738,16 +737,7 @@ app.layout = html.Div(
             [
                 html.Div(
                     [
-                       html.Img(
-                            src = img,
-                            #src='data:image/png;base64,{}'.format(encoded_image.decode()),
-                            id="plotly-image",
-                            style={
-                                "height": "60px",
-                                "width": "auto",
-                                "margin-bottom": "25px",
-                            },
-                        ),
+                       html.Div("")
                     ],
                     className="one-third column",
                 ),
