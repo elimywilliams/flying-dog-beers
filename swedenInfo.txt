@@ -1,1 +1,4 @@
-<li> </li>
+<li> 
+Never Fully locked down
+</li>
+<li> Encourage social distancing and working from home </li>
