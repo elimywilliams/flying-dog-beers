@@ -20,6 +20,14 @@ import json
 import bs4 as bs
 import dash_html_components as html
 import requests 
+from PIL import Image
+
+image_filename = 'http://www.southerncrossinc.com/wp-content/uploads/2019/02/SC-logo-website.png'
+
+response = requests.get(image_filename)
+img = Image.open(BytesIO(response.content))
+
+
 def retorna_documento(numero):
     if (numero == "Spain"):
         name = 'https://raw.githubusercontent.com/elimywilliams/sc_covid19/master/spainInfo.txt'
