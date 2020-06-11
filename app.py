@@ -845,7 +845,7 @@ app.layout = html.Div(
             [
                 html.Div(
                     [
-                        html.Div("."
+                        html.Div("."),
                     ],
                     className="one-third column",
                 ),
