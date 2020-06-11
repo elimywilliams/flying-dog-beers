@@ -1,11 +1,14 @@
-<li> Phase 1: <li>
 <ul>
-<li> Groups of up to 10 in public </li>
-<li> Retail and cafes open </li>
-</ul>
+<li> Phase 1: </li>
+    <ul>
+  <li> Groups of up to 10 in public</li>
+  <li> Retail and cafes open</li>
+  </ul>
+  
+<li> Phase 2: </li>
+ <ul>
+  <li> Groups of up to 20 in public</li>
+  <li> Retail and cafes open</li>
+  </ul>
 
-<li> Phase 2: <li>
-<ul>
-<li> Groups of up to 20 in public </li>
-<li> Retail and cafes open </li>
 </ul>
