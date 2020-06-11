@@ -863,7 +863,7 @@ app.layout = html.Div(
                          #       "width": "auto",
                          #       "margin-bottom": "25px",
                          #   },
-                        )
+                       # )
                     ],
                     className="one-third column",
                 ),
