@@ -86,6 +86,10 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css',
 #image = Image.open(image_filename)
 #image.show()
 
+from datetime import date
+
+today = date.today()
+
 
 #from PIL import Image
 import requests
@@ -893,7 +897,7 @@ app.layout = html.Div(
                                     style={"margin-bottom": "0px"},
                                 ),
                                 html.H5(
-                                    "6/11/20", style={"margin-top": "0px"}
+                                    print(today), style={"margin-top": "0px"}
                                 ),
                               dcc.Tabs(id="tabs-example", value='tab-1-example', children=[
                                   dcc.Tab(id="tab-1", label='Country', value='tab-1-example'),
