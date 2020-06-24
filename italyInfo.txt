@@ -7,5 +7,6 @@
 <li> Travel from EU without quarantine</li>
 <li> After 2 months of lockdown</li>
 <li> PM announced a "calculated risk"</li>
+<li> No travel from US until at least July 1 </li>
 
 </ul>
