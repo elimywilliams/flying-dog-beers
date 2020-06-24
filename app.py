@@ -135,7 +135,7 @@ file_name = 'https://raw.githubusercontent.com/elimywilliams/sc_covid19/master/S
 status = pd.read_csv(file_name)
 
 projOPTS = [
-            {'label': 'ACLARA (NY)', 'value': 'Aclara'},
+            #{'label': 'ACLARA (NY)', 'value': 'Aclara'},
             {'label': 'Con Edison', 'value': 'ConEd'},
             #{'label': 'CPS (TX)', 'value': 'CPS_TX'},
 
