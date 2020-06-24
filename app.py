@@ -244,6 +244,7 @@ stateOPTS = [
     {'label':'South Dakota','value':"SD"},
     {'label':'Tennessee','value':"TN"},
     {'label':'Texas','value':'TX'},
+    {'label':'Utah','value':'UT'},
     {'label':'Vermont','value':"VT"},
 
     {'label':'Virginia','value':"VA"},
