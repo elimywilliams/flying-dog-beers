@@ -3,4 +3,6 @@
 <ul>
 <li> Masks required in public </li>
 <li> Travel quarantine </li>
+<li> Limited Entry from EU </li>
+<li> No entry for US </li>
 </ul>
