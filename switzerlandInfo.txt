@@ -1,2 +1,3 @@
 <li> Social distancing rules in place </li>
 <li> Relaxed restrictions </li>
+<li> As of June 22, stopped most restrictions </li>
