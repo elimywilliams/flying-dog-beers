@@ -1,10 +1,10 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Thu May 28 15:30:21 2020
+Spyder Editor
 
-@author: emilywilliams
+This is a temporary script file.
 """
+
 
 import dash
 import dash_core_components as dcc
@@ -20,122 +20,25 @@ import json
 import bs4 as bs
 import dash_html_components as html
 import requests 
-def retorna_documento(numero):
-    if (numero == "Spain"):
-        name = 'https://raw.githubusercontent.com/elimywilliams/sc_covid19/master/spainInfo.txt'
-    elif (numero == "Italy"):
-        name = 'https://raw.githubusercontent.com/elimywilliams/sc_covid19/master/italyInfo.txt'
-    elif (numero == "United Kingdom"):
-        name = 'https://raw.githubusercontent.com/elimywilliams/sc_covid19/master/ukInfo.txt'
-    elif (numero == 'France'):
-        name = 'https://raw.githubusercontent.com/elimywilliams/sc_covid19/master/franceInfo.txt'
-    elif (numero == 'Sweden'):
-        name = 'https://raw.githubusercontent.com/elimywilliams/sc_covid19/master/swedenInfo.txt'
-    elif (numero == 'Switzerland'):
-        name = 'https://raw.githubusercontent.com/elimywilliams/sc_covid19/master/switzerlandInfo.txt'
-    elif (numero == 'Australia'):
-        name = 'https://raw.githubusercontent.com/elimywilliams/sc_covid19/master/aussieInfo.txt'
-    elif (numero == 'Austria'):
-        name = 'https://raw.githubusercontent.com/elimywilliams/sc_covid19/master/austriaInfo.txt'
-    elif (numero == 'Germany'):
-        name = 'https://raw.githubusercontent.com/elimywilliams/sc_covid19/master/germanyInfo.txt'
-    elif (numero == 'Turkey'):
-        name = 'https://raw.githubusercontent.com/elimywilliams/sc_covid19/master/turkeyInfo.txt'
-    elif (numero == 'New Zealand'):
-        name = 'https://raw.githubusercontent.com/elimywilliams/sc_covid19/master/nzInfo.txt'
-    elif (numero == 'US'):
-        name = 'https://raw.githubusercontent.com/elimywilliams/sc_covid19/master/usInfo.txt'
-    page = requests.get(name)
-    html_doc = page.text.replace('/n','')
-    #with open(name, 'r') as file:
-    #    html_doc = file.read().replace('\n', '')    
-    return convert_html_to_dash(html_doc)
-def convert_html_to_dash(el,style = None):
-    CST_PERMITIDOS =  {'div','span','a','hr','br','p','b','i','u','s','h1','h2','h3','h4','h5','h6','ol','ul','li',
-                        'em','strong','cite','tt','pre','small','big','center','blockquote','address','font','img',
-                        'table','tr','td','caption','th','textarea','option'}
-    def __extract_style(el):
-        if not el.attrs.get("style"):
-            return None
-        return {k.strip():v.strip() for k,v in [x.split(": ") for x in el.attrs["style"].split(";")]}
-
-    if type(el) is str:
-        return convert_html_to_dash(bs.BeautifulSoup(el,'html.parser'))
-    if type(el) == bs.element.NavigableString:
-        return str(el)
-    else:
-        name = el.name
-        style = __extract_style(el) if style is None else style
-        contents = [convert_html_to_dash(x) for x in el.contents]
-        if name.title().lower() not in CST_PERMITIDOS:        
-            return contents[0] if len(contents)==1 else html.Div(contents)
-        return getattr(html,name.title())(contents,style = style)
-    
-    
-px.set_mapbox_access_token('pk.eyJ1IjoiZXdpbGxpYW1zMjAyMCIsImEiOiJja2FpdTIxOXMwM2wzMnFtbmVmb3IzZDJ6In0.TVsQ-iu8bN4PQLkBCr6tQQ')
-
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css',
                         'https://raw.githubusercontent.com/elimywilliams/sc_covid19/master/header2.css'  ,
                         'https://github.com/plotly/dash-app-stylesheets/blob/master/dash-oil-and-gas.css'
                         ]
+px.set_mapbox_access_token('pk.eyJ1IjoiZXdpbGxpYW1zMjAyMCIsImEiOiJja2FpdTIxOXMwM2wzMnFtbmVmb3IzZDJ6In0.TVsQ-iu8bN4PQLkBCr6tQQ')
 
-
-#from PIL import Image
-#image_filename = 'http://www.southerncrossinc.com/wp-content/uploads/2019/02/SC-logo-website.png'
-#image = Image.open(image_filename)
-#image.show()
-
-from datetime import date
-
-today = date.today()
-
-
-#from PIL import Image
-import requests
-#from io import BytesIO
-
-#response = requests.get(image_filename)
-#img = Image.open(BytesIO(response.content))
-
-
-file_name = 'https://raw.githubusercontent.com/elimywilliams/sc_covid19/master/usoverall.csv'
-usLagOverall = pd.read_csv(file_name)
-usLagOverall['Date'] = usLagOverall['datetest'].astype('datetime64[ns]')
-usLagOverall['newConfirmed'] = usLagOverall['confirmed_infectionsnz']
-usLagOverall['confirmedCountry'] = usLagOverall['totCases']
-usLagOverall = usLagOverall.loc[usLagOverall.Date> "2020-03-01",:]
+allLeaks = pd.read_csv('https://raw.githubusercontent.com/elimywilliams/Trussville/master/allLeaks.csv')
+allPoly = pd.read_csv('https://raw.githubusercontent.com/elimywilliams/Trussville/master/allPoly.csv')
+allGaps = pd.read_csv('https://raw.githubusercontent.com/elimywilliams/Trussville/master/allGaps.csv')
+allLeaks = pd.read_csv('https://raw.githubusercontent.com/elimywilliams/Trussville/master/allLeaksWin.csv')
 
 
 
-file_name = 'https://raw.githubusercontent.com/elimywilliams/sc_covid19/master/countryLags.csv'
-countryLags = pd.read_csv(file_name)
-countryLags['Date'] = countryLags['Date'].astype('datetime64[ns]')
-countryLags = countryLags.loc[countryLags.Date> "2020-03-01",:]
-
-
-
-file_name = 'https://raw.githubusercontent.com/elimywilliams/sc_covid19/master/allStateLags.csv'
-stateLags = pd.read_csv(file_name)
-stateLags['Date'] = stateLags['datetest'].astype('datetime64[ns]')
-stateLags = stateLags.loc[stateLags.Date> "2020-03-01",:]
-
-
-file_name = 'https://raw.githubusercontent.com/elimywilliams/sc_covid19/master/citiInfo.csv'
-citInfo2 = pd.read_csv(file_name)
-citInfo2['Date'] = citInfo2['Date'].astype('datetime64[ns]')
-citInfo = citInfo2.loc[citInfo2.Date> "2020-04-15",:]
-
-
-file_name = 'https://raw.githubusercontent.com/elimywilliams/sc_covid19/master/uspreddat.csv'
-predInf = pd.read_csv(file_name)
-predInf['Date'] = predInf['date'].astype('datetime64[ns]')
-
-file_name = 'https://raw.githubusercontent.com/elimywilliams/sc_covid19/master/Summary_stats_all_locs.csv'
-status = pd.read_csv(file_name)
+import plotly.express as px
+import plotly.io as pio
 
 projOPTS = [
-            #{'label': 'ACLARA (NY)', 'value': 'Aclara'},
+            {'label': 'ACLARA (NY)', 'value': 'Aclara'},
             {'label': 'Con Edison', 'value': 'ConEd'},
             #{'label': 'CPS (TX)', 'value': 'CPS_TX'},
 
@@ -146,7 +49,7 @@ projOPTS = [
             
             {'label': 'Duke IPI', 'value': 'DukeIPI'},
             {'label': 'Duke Ohio', 'value': 'DukeOH'},
-            {'label': 'Norwich Public Utilities', 'value': 'norwhich'},
+            {'label': 'Norwhich Public Utilities', 'value': 'norwhich'},
 
             {'label': 'Peoples (IL)', 'value': 'PeoplesIL'},
             #{'label': 'Trussville (AL)', 'value': 'Trussville'},
@@ -167,6 +70,12 @@ popOPTS = [
     {'label':'Raw Cases', 'value':'nonrelpop'}
     
     
+    ]
+
+whichMapOPTS = [
+    {'label':'Satellite Map','value':'sat'},
+    {'label':'Street Map', 'value':'street'}
+       
     ]
 
 countryOPTS = [
@@ -190,357 +99,19 @@ countryOPTS = [
             ]
 
 stateOPTS = [
-    {'label':'Arkansas','value':"AR"},
-    {'label':'Alabama','value':"AL"},
-    {'label':'Alaska','value':"AK"},
-
-    {'label':'Arizona','value':"AZ"},
-    {'label':'Connecticut','value':'CT'},
-    {'label':'California','value':'CA'},
-    {'label':'Colorado','value':"CO"},
-    {'label':'Delaware','value':"DE"},
-
-    {'label':'Florida','value':"FL"},
-    {'label':'Georgia','value':"GA"},
-    {'label':'Hawaii','value':'HI'},
-    {'label':'Idaho','value':"ID"},
-
-    {'label':'Illinois','value':"IL"},
-    {'label':'Indiana','value':'IN'},
-    {'label':'Iowa','value':"IA"},
-    {'label':'Kansas','value':"KS"},
-
-    {'label':"Kentucky",'value':"KY"},
-    {'label':'Louisianna','value':"LA"},
-    {'label':"Massachusetts",'value':"MA"},
-    {'label':'Maine','value':"ME"},
-    {'label':'Maryland','value':"MD"},
-
-    {'label':'Michigan','value':"MI"},
-
-    {'label':'Minnesota','value':"MN"},
-    {'label':'Mississippi','value':'MS'},
-    {'label':'Missouri','value':'MO'},
-    {'label':'Montana','value':"MT"},
-    {'label':'North Carolina','value':'NC'},
-
-    {'label':'North Dakota','value':"ND"},
-    {'label':'Nebraska','value':"NE"},
-
-    {'label':'Nevada','value':"NV"},
-    {'label':'New Hampshire','value':"NH"},
-    
-
-    {'label':'New Jersey','value':'NJ'},
-    {'label':'New Mexico','value':"NM"},
-
-    {'label':'New York','value':"NY"},
-    {'label':'Ohio','value':"OH"},
-    {'label':'Oklahoma','value':"OK"},
-    {'label':'Oregon','value':'OR'},
-    {'label':'Pennsylvania','value':'PA'},
-    {'label':'Rhode Island','value':"RI"},
-    {'label':'South Carolina','value':'SC'},
-    {'label':'South Dakota','value':"SD"},
-    {'label':'Tennessee','value':"TN"},
-    {'label':'Texas','value':'TX'},
-    {'label':'Utah','value':'UT'},
-    {'label':'Vermont','value':"VT"},
-
-    {'label':'Virginia','value':"VA"},
-    {'label':'Washington','value':'WA'},
-    {'label':'West Virginia','value':"WV"},
-
-    {'label':'Wisconsin','value':'WI'},
-    {'label':'Wyoming','value':'WY'}  
+    {'label':'Polygon 1','value':"P1"},
+    {'label':'Polygon 2','value':"P2"},
+    {'label':'Polygon 3','value':"P3"},
+    {'label':'Polygon 4','value':"P4"}
     ]
 
 
-#### importing project - specific updates
-file_name = 'https://raw.githubusercontent.com/elimywilliams/sc_covid19/master/projectUpdateInfo.csv'
-file = pd.read_csv(file_name)
-
-px.set_mapbox_access_token('pk.eyJ1IjoiZXdpbGxpYW1zMjAyMCIsImEiOiJja2FpdTIxOXMwM2wzMnFtbmVmb3IzZDJ6In0.TVsQ-iu8bN4PQLkBCr6tQQ')
-
-
-
-file_name = 'https://raw.githubusercontent.com/elimywilliams/sc_covid19/master/cityProjLags.csv'
-citLags2= pd.read_csv(file_name)
-citLags2['Date'] = citLags2['date'].astype('datetime64[ns]')
-citLags = citLags2.loc[citLags2.Date> "2020-03-15",:]
-
-
-trussProj = citLags[citLags.Province_State.isin(['Alabama'])].Combined_Key.unique()
-trussOptions=[{'label': i, 'value': i} for i in trussProj]
-
-### need 
-azDat = citLags[citLags.Province_State.isin(['Arizona'])].Combined_Key.unique()
-azOptions=[{'label': i, 'value': i} for i in azDat]
-
-coDat = citLags[citLags.Province_State.isin(['Colorado'])].Combined_Key.unique()
-coOptions=[{'label': i, 'value': i} for i in coDat]
-
-ctDat = citLags[citLags.Province_State.isin(['Connecticut'])].Combined_Key.unique()
-ctOptions=[{'label': i, 'value': i} for i in ctDat]
-
-gaDat = citLags[citLags.Province_State.isin(['Georgia'])].Combined_Key.unique()
-gaOptions=[{'label': i, 'value': i} for i in gaDat]
-
-idDat = citLags[citLags.Province_State.isin(['Idaho'])].Combined_Key.unique()
-idOptions=[{'label': i, 'value': i} for i in idDat]
-
-ilDat = citLags[citLags.Province_State.isin(['Illinois'])].Combined_Key.unique()
-ilOptions=[{'label': i, 'value': i} for i in ilDat]
-
-inDat = citLags[citLags.Province_State.isin(['Indiana'])].Combined_Key.unique()
-inOptions=[{'label': i, 'value': i} for i in inDat]
-
-kyDat = citLags[citLags.Province_State.isin(['Kentucky'])].Combined_Key.unique()
-kyOptions=[{'label': i, 'value': i} for i in kyDat]
-
-mtDat = citLags[citLags.Province_State.isin(['Montana'])].Combined_Key.unique()
-mtOptions=[{'label': i, 'value': i} for i in mtDat]
-
-ncDat = citLags[citLags.Province_State.isin(['North Carolina'])].Combined_Key.unique()
-ncOptions=[{'label': i, 'value': i} for i in ncDat]
-
-scDat = citLags[citLags.Province_State.isin(['South Carolina'])].Combined_Key.unique()
-scOptions=[{'label': i, 'value': i} for i in scDat]
-        
-
-ohDat = citLags[citLags.Province_State.isin(['Ohio'])].Combined_Key.unique()
-ohOptions=[{'label': i, 'value': i} for i in ohDat]
-
-riDat = citLags[citLags.Province_State.isin(['Rhode Island'])].Combined_Key.unique()
-riOptions=[{'label': i, 'value': i} for i in riDat]
-
-txDat = citLags[citLags.Province_State.isin(['Texas'])].Combined_Key.unique()
-txOptions=[{'label': i, 'value': i} for i in txDat]
-
-utDat = citLags[citLags.Province_State.isin(['Utah'])].Combined_Key.unique()
-utOptions=[{'label': i, 'value': i} for i in utDat]
-
-wyDat = citLags[citLags.Province_State.isin(['Wyoming'])].Combined_Key.unique()
-wyOptions=[{'label': i, 'value': i} for i in wyDat]
-
-
-nydat = citLags[citLags.Province_State.isin(['New York'])].Combined_Key.unique()
-nyOptions=[{'label': i, 'value': i} for i in nydat]
-
-
-
-conEDProj = citLags[citLags.Province_State.isin(['New York'])].Combined_Key.unique()
-conEDProjOptions=[{'label': i, 'value': i} for i in conEDProj]
-
-
-wisProj = citLags[citLags.Province_State.isin(['Wisconsin'])].Combined_Key.unique()
-wisProjOptions=[{'label': i, 'value': i} for i in wisProj]
-
-
-ohstates = ['Ohio','Kentucky','Indiana']
-ohProj = citLags[citLags.Province_State.isin(ohstates)].Combined_Key.unique()
-ohProjOptions=[{'label': i, 'value': i} for i in ohProj]
-
-
-utProj = citLags[citLags.Province_State.isin(['Utah',"Idaho"])].Combined_Key.unique()
-utProjOptions=[{'label': i, 'value': i} for i in utProj]
-
-
-ilProj = citLags[citLags.Province_State.isin(['Illinois',"Wisconsin","Indiana"])].Combined_Key.unique()
-ilProjOptions=[{'label': i, 'value': i} for i in ilProj]
-
-
-aclaraProj = citLags[citLags.Province_State.isin(['New York'])].Combined_Key.unique()
-aclaraProjOptions=[{'label': i, 'value': i} for i in aclaraProj]
-
-norProj = citLags[citLags.Province_State.isin(['Rhode Island',"Connecticut"])].Combined_Key.unique()
-norProjOptions=[{'label': i, 'value': i} for i in norProj]
-
-
-texProj = citLags[citLags.Province_State.isin(['Texas'])].Combined_Key.unique()
-texProjOptions=[{'label': i, 'value': i} for i in texProj]
-
-
-# =============================================================================
-# text_markdown = "\t"
-# 
-# with open('/Users/emilywilliams/COVID_py/text.py') as this_file:
-#     for a in this_file.read():
-#         if "\n" in a:
-#             text_markdown += "\n \t"
-#         else:
-#             text_markdown += a
-# 
-# 
-# =============================================================================
-
-#norCarProj = citLags[citLags.Province_State.isin(['North Carolina'])].Combined_Key.unique()
-#norCarProjOptions=[{'label': i, 'value': i} for i in norCarProj]
-
-
-#southCarProj = citLags[citLags.Province_State.isin(['South Carolina'])].Combined_Key.unique()
-#southCarProjOptions=[{'label': i, 'value': i} for i in southCarProj]
-
-fnameDict = {'ConEd': conEDProjOptions, 
-             'DukeOH':ohProjOptions,
-             'DomQuest':utProjOptions,
-             'WEC_WI':wisProjOptions,
-             'WPS_WI':wisProjOptions,
-             'PeoplesIL':ilProjOptions,
-             'Aclara':aclaraProjOptions,
-             'DukeIPI':ohProjOptions,
-             'norwhich':norProjOptions,
-             #'Trussville':trussOptions,
-             #'CPS_TX':texProjOptions,
-             #'DominionSC':southCarProjOptions,
-             #'DominionNC':norCarProjOptions
+fnameDict = {'P1': allLeaks.loc[allLeaks.POLYGON == "P1",].LEAKNUM.unique(), 'P2': allLeaks.loc[allLeaks.POLYGON == "P2",].LEAKNUM.unique(),
+             'P3': allLeaks.loc[allLeaks.POLYGON == "P3",].LEAKNUM.unique(),'P4': allLeaks.loc[allLeaks.POLYGON == "P4",].LEAKNUM.unique()
+                       
              }
 names = list(fnameDict.keys())
 nestedOptions = fnameDict[names[0]]
-
-statnameDict = {
-    'NY':nyOptions,
-    'AL':trussOptions,
-    'CO':coOptions,
-    'CT':ctOptions,
-    'GA':gaOptions,
-    'ID':idOptions,
-    "IL":ilOptions,
-    "IN":inOptions,
-    'KY':kyOptions,
-    "MT":mtOptions,
-    "NC":ncOptions,
-    "OH":ohOptions,
-    "RI":riOptions,
-    "SC":scOptions,
-    "TX":txOptions,
-    "UT":utOptions,
-    "WI":wisProjOptions,
-    "WY":wyOptions
-    }
-
-stat_names = list(statnameDict.keys())
-stat_nestedOptions = statnameDict[stat_names[2]]
-
-
-tab3=html.Div([
-    html.Div(
-            [
-                html.Div(
-                    [
-
-                        html.P("Choose Project Specific Information:", className="control_label"),
-                       dcc.Dropdown(
-                            id="whichProj",
-                            #options=well_status_options,
-                            options = projOPTS,
-                            #multi=True,
-                            #value=list(WELL_STATUSES.keys()),
-                            value = 'DukeOH',
-                            className="dcc_control",
-                        ),
-                        # html.P("Choose Related City:", className="control_label"),
-                        # dcc.Dropdown(
-                        #     id="whichCity",
-                        #     #options=well_type_options,
-                        #     #multi=True,
-                        #     #value=list(WELL_TYPES.keys()),
-                        #     className="dcc_control",
-                        # ),
-                        dcc.RadioItems(
-                            id="whichavg",
-                            options=whichAvgOPTS,
-                            value="sevenday",
-                            labelStyle={"display": "inline-block"},
-                            className="dcc_control"
-                            
-                        ),
-                        dcc.RadioItems(
-                            id="popratio",
-                            options=popOPTS,
-                            value="nonrelpop",
-                            labelStyle={"display": "inline-block"},
-                            className="dcc_control",
-                        ),
-                        
-                    ],
-                    className="pretty_container four columns",
-                    id="cross-filter-options",
-                ),
-                html.Div(
-                    [
-                        html.Div(
-                            [
-                                html.Div(
-                                    [html.H6(id="projText"), html.P("Project:")],
-                                    id="projnameyo",
-                                    className="mini_container",
-                                ),
-                                html.Div(
-                                    [html.H6(id="pstat"), html.P("Status:")],
-                                    id="projstatus",
-                                    className="mini_container",
-                                ),
-                                html.Div(
-                                
-                                                        
-                                     [html.H6(id="countryOpen"), html.P("Opening Date: ")],
-                                     id="open-date",
-                                     className="mini_container",
-                                 ),
-                                
-                                # html.Div(
-                                #     [html.H6(id="waterText"), html.P("Other Info:")],
-                                #     id="water",
-                                #     className="mini_container",
-                                # ),
-                            ],
-                            id="info-container-proj",
-                            className="row container-display",
-                        ),
-                    ],
-                    id="right-column",
-                    className="eight columns",
-                ),
-            ],
-            className="row flex-display",
-        ),
-        html.Div(
-            [
-                html.Div(
-                    [dcc.Graph(id="projGraph")],
-                    className="pretty_container seven columns",
-                ),
-                html.Div(
-                    [dcc.Graph(id="cityGraph")],
-                    className="pretty_container five columns",
-                ),
-            ],
-            className="row flex-display",
-        ),
-         #html.Div(children = html.Iframe(src='text.html')),
-        # html.Div(
-        #     [
-        #         html.Div(
-        #             [dcc.Graph(id="pie_graph")],
-        #             className="pretty_container seven columns",
-        #         ),
-        #         html.Div(
-        #             [dcc.Graph(id="aggregate_graph")],
-        #             className="pretty_container five columns",
-        #         ),
-        #     ],
-        #     className="row flex-display",
-        # ),
-         # html.Div(children = [
-         #    dcc.Markdown(id='hover-data',children = [""]),
-         #    ], className='three columns'),
-         # html.Div(children = [
-         #    dcc.Markdown(children = [""],id = 'click-data')], className='three columns')
-                  
-                  
-        ])
-
 
 
 tab1=html.Div([
@@ -549,77 +120,75 @@ tab1=html.Div([
                 html.Div(
                     [
 
-                        html.P("Choose Country Specific Information:", className="control_label"),
+                        html.P("Choose Polygon:", className="control_label"),
                        dcc.Dropdown(
-                            id="whichCountry",
+                            id="whichPoly",
                             #options=well_status_options,
-                            options = countryOPTS,
+                            options = stateOPTS,
                             #multi=True,
                             #value=list(WELL_STATUSES.keys()),
-                            value = 'US',
+                            value = 'P1',
                             className="dcc_control",
                         ),
-                        #html.P("Choose Related City:", className="control_label"),
-                        #dcc.Dropdown(
-                        #    id="whichCity",
-                            #options=well_type_options,
-                            #multi=True,
-                            #value=list(WELL_TYPES.keys()),
-                        #    className="dcc_control",
-                        #),
+                        html.P("Choose Leak Number:", className="control_label"),
+                        dcc.Dropdown(
+                            id='opt-dropdown',
+                            #options=[{'label':opt, 'value':opt} for opt in nestedOptions],
+                            #value = nestedOptions[0]        
+                            options = [],
+                        ),
                         dcc.RadioItems(
-                            id="whichavgcountry",
-                            options=whichAvgOPTS,
-                            value="sevenday",
+                            id="whichMap",
+                            options=whichMapOPTS,
+                            value="sat",
                             labelStyle={"display": "inline-block"},
                             className="dcc_control"
                             
                         ),
-                        dcc.RadioItems(
-                            id="popratiocountry",
-                            options=popOPTS,
-                            value="nonrelpop",
-                            labelStyle={"display": "inline-block"},
-                            className="dcc_control",
-                        ),
-                        #html.Div(html.P('Country Status:')),
-                        #html.Div(
-                        ##    id = 'countryStatus',
-                         #   children = [],
-                         #   ),
+                        html.A(html.Button('Get Route'),
+    #href='https://github.com/czbiohub/singlecell-dash/issues/new',
+    id = 'map_dir',target='_blank',
+    )
+
+                       # dcc.RadioItems(
+                       #     id="popratiostate",
+                       #     options=popOPTS,
+                       #     value="nonrelpop",
+                       #     labelStyle={"display": "inline-block"},
+                       #     className="dcc_control",
+                       # ),
                         
                     ],
                     className="pretty_container four columns",
-                    id="cross-filter-options-country",
+                    id="cross-filter-options-state",
                 ),
                 html.Div(
                     [
                         html.Div(
                             [
-                                html.Div(
-                                    [html.H6(id="countryText"), html.P("Country:")],
-                                    id="countryName",
-                                    className="mini_container",
-                                ),
-                                
+                                 html.Div(
+                                     [html.H6(id="well_text"), html.P("Polygon:")],
+                                     id="polygon",
+                                     className="mini_container",
+                                 ),
+                                 html.Div(
+                                     [html.H6(id="gasText"), html.P("Status:")],
+                                     id="polygonLks",
+                                     className="mini_container",
+                                 ),
+                               
                                 # html.Div(
-                                #     [html.H6(id="countryStat"), ],
-                                #     id="countryStatus",
+                                #     [html.H6(id="oilText"), html.P("")],
+                                #     id="oil",
                                 #     className="mini_container",
                                 # ),
-                                
                                 # html.Div(
-                                #     [html.H6(id="countryStata"), html.P("Country Info:")],
-                                #     id="countryStatus",
-                                #     className="mini_container",
-                                # ),
-                                # html.Div(
-                                #     [html.H6(id="countryOpen"), html.P("Opening Date:")],
-                                #     id="open-date",
+                                #     [html.H6(id="waterText"), html.P("")],
+                                #     id="water",
                                 #     className="mini_container",
                                 # ),
                             ],
-                            id="info-container-country",
+                            id="info-container-state",
                             className="row container-display",
                         ),
                     ],
@@ -631,49 +200,33 @@ tab1=html.Div([
         ),
         html.Div(
             [
-               html.Div(
-                    [html.Div(' ')],
-                    className="row container-display",
-                ),
                 html.Div(
-                        [ html.P(['', html.Br(), '']),
-                            
-                            html.P([html.B('Country Status:'), html.Br(), '']),
-                            
-                        html.Div(
-                            id = 'countryStatus',
-                            children = [],
-                            )
-                        ],className = 'pretty_container three columns'),
-                              
-                html.Div(
-                    [dcc.Graph(id="country_graph")],
+                    [dcc.Graph(id="leakGraph")],
                     className="pretty_container seven columns",
                 ),
-# =============================================================================
-#                 html.Div(
-#                     [dcc.Graph(id="cityGraph2")],
-#                     className="pretty_container five columns",
-#                 ),
-# =============================================================================
+                #html.Div(
+                #    [dcc.Graph(id="statePredGraph")],
+                #    className="pretty_container five columns",
+                #),
+                html.Div(
+                    [dcc.Graph(id='hover-data-plot')],#,id="hover-data-plot")],
+                    className="pretty_container five columns"),
             ],
             className="row flex-display",
         ),
-# =============================================================================
-#         html.Div(
-#             [
-#                 html.Div(
-#                     [dcc.Graph(id="pie_graph2")],
-#                     className="pretty_container seven columns",
-#                 ),
-#                 html.Div(
-#                     [dcc.Graph(id="aggregate_graph")],
-#                     className="pretty_container five columns",
-#                 ),
-#             ],
-#             className="row flex-display",
-#         )
-# =============================================================================
+        html.Div(
+             [
+                 html.Div(id='hover-data-info',
+                     #[dcc.Markdown(id="hover-data-info")],
+                     className="pretty_container seven columns",
+                 ),
+        #         html.Div(
+        #             [dcc.Graph(id="aggregate_graph")],
+        #             className="pretty_container five columns",
+        #         ),
+             ],
+             className="row flex-display",
+         )
         ])
 
 tab2=html.Div([
@@ -682,14 +235,14 @@ tab2=html.Div([
                 html.Div(
                     [
 
-                        html.P("Choose State Specific Information:", className="control_label"),
+                        html.P("Choose Polygon:", className="control_label"),
                        dcc.Dropdown(
-                            id="whichState",
+                            id="whichPolyGap",
                             #options=well_status_options,
                             options = stateOPTS,
                             #multi=True,
                             #value=list(WELL_STATUSES.keys()),
-                            value = 'CO',
+                            value = 'P1',
                             className="dcc_control",
                         ),
                         #html.P("Choose Related City:", className="control_label"),
@@ -703,20 +256,20 @@ tab2=html.Div([
                          #   className="dcc_control",
                         #),
                         dcc.RadioItems(
-                            id="whichavgstate",
-                            options=whichAvgOPTS,
-                            value="sevenday",
+                            id="whichMap",
+                            options=whichMapOPTS,
+                            value="sat",
                             labelStyle={"display": "inline-block"},
                             className="dcc_control"
                             
                         ),
-                        dcc.RadioItems(
-                            id="popratiostate",
-                            options=popOPTS,
-                            value="nonrelpop",
-                            labelStyle={"display": "inline-block"},
-                            className="dcc_control",
-                        ),
+                        # dcc.RadioItems(
+                        #     id="popratiostate",
+                        #     options=popOPTS,
+                        #     value="nonrelpop",
+                        #     labelStyle={"display": "inline-block"},
+                        #     className="dcc_control",
+                        # ),
                         
                     ],
                     className="pretty_container four columns",
@@ -760,12 +313,12 @@ tab2=html.Div([
         html.Div(
             [
                 html.Div(
-                    [dcc.Graph(id="state_graph")],
+                    [dcc.Graph(id="gapGraph")],
                     className="pretty_container seven columns",
                 ),
                 html.Div(
-                    [dcc.Graph(id="statePredGraph")],
-                    className="pretty_container five columns",
+                    [dcc.Graph(id='hover-data-plot')],#,id="hover-data-plot")],
+                    className="pretty_container five columns"
                 ),
             ],
             className="row flex-display",
@@ -784,73 +337,13 @@ tab2=html.Div([
         #     className="row flex-display",
         # )
         ])
-
-#import base64
-#import pdf2image
-#encoded_image = base64.b64encode(open('DR0104_2019-2.pdf', "rb").read())
-#PDF = html.Img(src=encoded_image.decode())
-
-#asset_report_fp = open('DR0104_2019-2.pdf', "rb")
-##asset_report_bytes = asset_report_fp.read()
-#encoded_image = convert_from_bytes(asset_report_bytes)
-
-
-tab4=html.Div([
-    html.Div(
-            [
-            
-                html.Div(
-                    [
-                        html.Div(
-                            [ ],
-                            id="info-container-state",
-                            className="row container-display",
-                        ),
-                    ],
-                    id="right-column",
-                    className="eight columns",
-                ),
-            ],
-            className="row flex-display",
-        ),
-        html.Div(
-            [
-                html.Div(html.Iframe(src='/Users/emilywilliams/COVID_py/DR0104_2019-2.pdf'),
-                    className="pretty_container twelve columns",
-                ),
-                #html.Div(
-                #    [html.Div("does this work?")],
-                #    className="pretty_container five columns",
-                #),
-            ],
-            className="row flex-display",
-        ),
-        # html.Div(
-        #     [
-        #         html.Div(
-        #             [dcc.Graph(id="pie_graph2")],
-        #             className="pretty_container seven columns",
-        #         ),
-        #         html.Div(
-        #             [dcc.Graph(id="aggregate_graph")],
-        #             className="pretty_container five columns",
-        #         ),
-        #     ],
-        #     className="row flex-display",
-        # )
-        ])
-#html.Div(className = 'container',children = [html.Iframe(src='DR0104_2019-2.pdf')])
-    
-    
-    #hildren = [dcc.Markdown(text_markdown)])
-
-
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets,suppress_callback_exceptions=True,
                  meta_tags=[{"name": "viewport", "content": "width=device-width"}]
 )
 
-server=app.server
+server = app.server
+
 app.layout = html.Div(
     [
         dcc.Store(id="aggregate_data"),
@@ -877,11 +370,11 @@ app.layout = html.Div(
                         html.Div(
                             [
                                 html.H3(
-                                    "Southern Cross Project-Specific Information",
+                                    "Southern Cross Gap and Leak Indication",
                                     style={"margin-bottom": "0px"},
                                 ),
                                 html.H5(
-                                    "Coronavirus Impact", style={"margin-top": "0px"}
+                                    "Trussville, AL", style={"margin-top": "0px"}
                                 ),
                             ]
                         )
@@ -898,12 +391,11 @@ app.layout = html.Div(
                                     style={"margin-bottom": "0px"},
                                 ),
                                 html.H5(
-                                    today, style={"margin-top": "0px"}
+                                    '6.23.20', style={"margin-top": "0px"}
                                 ),
                               dcc.Tabs(id="tabs-example", value='tab-1-example', children=[
-                                  dcc.Tab(id="tab-1", label='Country', value='tab-1-example'),
-                                  dcc.Tab(id="tab-2", label='State', value='tab-2-example'),
-                                  dcc.Tab(id='tab-3',label='Project',value = 'tab-3-example'),
+                                  dcc.Tab(id="tab-1", label='Leak Indications', value='tab-1-example'),
+                                  dcc.Tab(id="tab-2", label='Gaps', value='tab-2-example'),
                                  # dcc.Tab(id= 'tab-4',label = 'Weekly Info',value = 'tab-4-example')
                                   ])
 
@@ -921,13 +413,16 @@ app.layout = html.Div(
             style={"margin-bottom": "25px"},
         ),
         html.Div(id='tabs-content-example',
-             children = tab3),
+             children = tab1),
        
         
     ],
     id="mainContainer",
     style={"display": "flex", "flex-direction": "column",'backgroundColor':'white'},
 )
+
+
+
 
 
 @app.callback(dash.dependencies.Output('tabs-content-example', 'children'),
@@ -937,687 +432,272 @@ def render_content(tab):
         return tab1
     elif tab == 'tab-2-example':
         return tab2
-    elif tab == 'tab-3-example':
-        return tab3
     #elif tab == 'tab-4-example':
     #    return tab4
 
-
-
-@app.callback(dash.dependencies.Output('state_graph', 'figure'),
-              [dash.dependencies.Input('whichState', 'value')     ,
-               dash.dependencies.Input('whichavgstate','value'),
-               dash.dependencies.Input('popratiostate','value')
-               ])
-
-def update_state_fig(input_value,which_avg,pop_rat):
-    df = stateLags[stateLags.StateAbr == input_value]
-    
-    if which_avg == 'sevenday':
-        xvals = df.Date
-        yvalDeaths = df.death_7/7
-        yvalCases = df.mean_7/7
-        title = 'Cases and Deaths (7 day avg), <br> ' + input_value
-        yCaseTitle = " Cases"
-        yDeathTitle = " Deaths"
-    elif which_avg == 'threeday':
-        xvals = df.Date
-        yvalDeaths = df.death_3/3
-        yvalCases = df.mean_3/3
-        title = ' Cases and Deaths (3 day avg), <br>' + input_value
-        yCaseTitle = "Cases"
-        yDeathTitle = "Deaths"
-    elif which_avg == 'daily':
-        xvals = df['Date']
-        yvalDeaths = df.deaths_mnnz
-        yvalCases = df['confirmed_infectionsnz']
-        title = 'Daily Cases and Deaths, <br>' + str(input_value)
-        yCaseTitle = "Daily Cases"
-        yDeathTitle = "Daily Deaths"   
-    elif which_avg == 'total':
-        xvals = df.Date
-        yvalDeaths = df.totDeaths
-        yvalCases = df.totCases
-        title = 'Total Cases and Deaths, <br>' + input_value
-        yCaseTitle = "Total Cases"
-        yDeathTitle = "Total Deaths"
-    if pop_rat == 'relpop':
-        yvalDeaths = (yvalDeaths/df.Population)*1e5
-        yvalCases = (yvalCases/df.Population)*1e5
-        #title = title + 'per 100k people'
-        yCaseTitle = yCaseTitle + ' per 100k'
-        yDeathTitle = yDeathTitle + ' per 100k'
-
-        
-    # Create traces
-    death_data = go.Scatter(
-         x= xvals,
-         y= yvalDeaths,
-         name='Deaths',
-         yaxis = 'y2'
-     )
-    mean_data = go.Scatter(
-         x=xvals,
-         y=yvalCases,
-         name='Cases'
-         # yaxis='y2'
-     )
-     # How do I integrate the layout?
-    layout = go.Layout(
-         title=title,
-         yaxis=dict(
-             title=yCaseTitle
-         ),
-         yaxis2=dict(
-             title=yDeathTitle,
-             overlaying='y',
-             side='right'
-         )
-         ,
-         legend_orientation="h"
-
-     )
-        
-
-    data = [mean_data,death_data]
-    
-
-    return{
-        'data':data,
-        'layout': layout
-        }
-
-
-@app.callback(dash.dependencies.Output('statePredGraph', 'figure'),
-              [dash.dependencies.Input('whichState', 'value')     ,
-               dash.dependencies.Input('whichavgstate','value'),
-               dash.dependencies.Input('popratiostate','value')
-               ])
-
-def update_state_fig2(input_value,which_avg,pop_rat):
-    df = predInf[predInf.StateAbr == input_value]
-    
-   #xvals = df.Date
-   # yvalDeaths = df.death_7
-   # yvalCases = df.mean_7
-   # yCaseTitle = "Weekly Cases"
-   # yDeathTitle = "Weekly Deaths"
-    
-    # if pop_rat == 'relpop':
-    #     yvalDeaths = (yvalDeaths/df.Population)*1e5
-    #     yvalCases = (yvalCases/df.Population)*1e5
-    #     #title = title + 'per 100k people'
-    #     yCaseTitle = yCaseTitle + ' per 100k'
-    #     yDeathTitle = yDeathTitle + ' per 100k'
-    
-    yup = df['est_infections_upper']
-    ylow = df['est_infections_lower']
-    y = df['est_infections_mean']
-    title = 'Estimate of True Daily Cases, ' + input_value
-    ytitle = 'Estimated Cases'    
-    
-    
-    if pop_rat == 'relpop':
-        yup = df['est_inf_upr_pop']
-        ylow = df['est_inf_lwr_pop']
-        y = df['est_inf_mn_pop']
-        title = 'Estimated Cases, Per 100k People, <br>' + input_value
-        ytitle = 'Estimated Cases, per 100k people'
-        
-    upper_bound = go.Scatter(
-        name='Upper Bound',
-        x=df['Date'],
-        y = yup,
-        mode='lines',
-        marker=dict(color="#444"),
-        line=dict(width=0),
-        fillcolor='rgba(68, 68, 68, 0.3)',
-        fill='tonexty')
-    
-    trace = go.Scatter(
-        name='Estimate',
-        x=df['Date'],
-        y=y,
-        mode='lines',
-        line=dict(color='rgb(31, 119, 180)'),
-        fillcolor='rgba(68, 68, 68, 0.3)',
-        fill='tonexty')
-
-    lower_bound = go.Scatter(
-        name='Lower Bound',
-        x=df['Date'],
-        y= ylow,
-        marker=dict(color="#444"),
-        line=dict(width=0),
-        mode='lines')
-     # How do I integrate the layout?
-         
-    data = [lower_bound, trace, upper_bound]
-
-    layout = go.Layout(
-        yaxis=dict(title=ytitle),
-        title=title,
-        showlegend = True,
-        legend_orientation="h"
-)
-                
-
-    return{
-        'data':data,
-        'layout': layout
-        }
-
-
-@app.callback( dash.dependencies.Output('whichCity', 'options'),
-    [dash.dependencies.Input('whichState', 'value')]
-)
-def update_city_dropdown(name):
-    opts = statnameDict[name]
-    options=[{'label':opt, 'value':opt} for opt in opts]
-    return {'options':options}
-
-
-@app.callback(dash.dependencies.Output('projGraph','figure'),
-              [dash.dependencies.Input('whichProj','value')]             
+@app.callback(dash.dependencies.Output('leakGraph', 'figure'),
+              [dash.dependencies.Input('whichPoly', 'value'),
+               dash.dependencies.Input('whichMap', 'value')
+               
+               ]
               )
-def update_project(whichProj):
-    if whichProj == "ConEd":
-        lat = 41.6
-        lon = -73.7
-        zoom = 7
-        lowlat = -200
-        uplat = 200
-        lowlon = -200
-        uplon = 200
-        title = "Con Edison"
-        states = ["New York"]
-
-    elif whichProj == "DukeOH":
-        lat = 39.19
-        lon = -84.5
-        zoom = 7
-        lowlat = -200
-        uplat = 200
-        lowlon = -200
-        uplon = 200
-        states = ['Ohio', 'Kentucky','Indiana']
-        title = "Duke (Ohio)"
-
-    elif whichProj == "DomQuest":
-        lat = 40.66
-        lon = -111.9
-        lowlon = -88
-        uplon = -86
-        zoom = 7
-        lowlat = -200
-        uplat = 200
-        lowlon = -200
-        uplon = 200
-        title = "Dom Questar"
-        states = ['Utah']
-
-    elif whichProj == "WEC_WI":
-        lat = 43
-        lon = -87.9
-        zoom = 6
-        lowlat = 32.7
-        uplat = 34.4
-        lowlon = -88
-        uplon = -86
-        zoom = 7
-        lowlat = -200
-        uplat = 200
-        lowlon = -200
-        uplon = 200
-        title = "WEC (WI)"
-        states = ['Wisconsin']
-
-    elif whichProj == "WPS_WI":
-        lat = 43
-        lon = -87.9
-        zoom = 6
-        lowlat = 32.7
-        uplat = 34.4
-        lowlon = -88
-        uplon = -86
-        zoom = 7
-        lowlat = -200
-        uplat = 200
-        lowlon = -200
-        uplon = 200
-        title = "WPS (WI)"
-        states = ['Wisconsin']
-
-    elif whichProj == "PeoplesIL":
-        lat = 41.84
-        lon = -87.8
-        zoom = 6
-        lowlat = 32.7
-        uplat = 34.4
-        lowlon = -88
-        uplon = -86
-        zoom = 7
-        lowlat = -200
-        uplat = 200
-        lowlon = -200
-        uplon = 200
-        title = "Peoples (IL)"
-        states = ['Illinois',"Wisconsin","Indiana"]
-
-    elif whichProj == "Aclara":
-        lat = 41.6
-        lon = -73.7
-        zoom = 7
-        lowlat = -200
-        uplat = 200
-        lowlon = -200
-        uplon = 200
-        title = "ACLARA"
-        states = ["New York"]
-
-    elif whichProj == "DukeIPI":
-        lat = 39.19
-        lon = -84.5
-        zoom = 7
-        lowlat = 36.5
-        uplat = 42
-        lowlon = -85
-        uplon = -83 
-        lat = 39.19
-        lon = -84.5
-        zoom = 7
-        lowlat = -200
-        uplat = 200
-        lowlon = -200
-        uplon = 200
-        states = ['Ohio', 'Kentucky','Indiana']
-        title = "Duke (IPI)"
-
-    elif whichProj == "norwhich":
-        lat = 41.5
-        lon = -72
-        zoom = 6
-        lowlat = 32.7
-        uplat = 34.4
-        lowlon = -88
-        uplon = -86
-        zoom = 7
-        lowlat = -200
-        uplat = 200
-        lowlon = -200
-        uplon = 200
-        title = "Norwich"
-        states = ["Connecticut","Rhode Island"]
-
-# =============================================================================
-#     elif whichProj == "Trussville":
-#         lat = 33.7
-#         lon = -86.9
-#         zoom = 6
-#         lowlat = 32.7
-#         uplat = 34.4
-#         lowlon = -88
-#         uplon = -86
-#         zoom = 7
-#         lowlat = -200
-#         uplat = 200
-#         lowlon = -200
-#         uplon = 200
-#         title = "Trussville"
-#         states = ['Alabama']
-# =============================================================================
-
-# =============================================================================
-#     elif whichProj == "CPS_TX":
-#         lat = 32.76
-#         lon = -96.7
-#         zoom = 6
-#         lowlat = 32.7
-#         uplat = 34.4
-#         lowlon = -88
-#         uplon = -86
-#         zoom = 7
-#         lowlat = -200
-#         uplat = 200
-#         lowlon = -200
-#         uplon = 200
-#         title = "CPS, Texas"
-#         states = ['Texas']
-# 
-# =============================================================================
-# =============================================================================
-#     elif whichProj == "DominionSC":
-#         lat = 34
-#         lon = -80.9
-#         zoom = 6
-#         lowlat = -200
-#         uplat = 200
-#         lowlon = -200
-#         uplon = 200
-#         title = "Dominion, SC"
-#         states = ['South Carolina']
-# 
-#     elif whichProj == "DominionNC":
-#         lat = 35.79
-#         lon = -80.2
-#         zoom = 5.6
-#         lowlat = -200
-#         uplat = 200
-#         lowlon = -200
-#         uplon = 200
-#         title = "Dominion, NC"
-#         states = ['North Carolina']
-#     
-# =============================================================================
+def update_polyLeak(whichPolygon,whichMap):
+    usedat = allLeaks.loc[allLeaks.POLYGON == whichPolygon,:]
+    color_discrete_map = {'P1': 'rgb(255,0,0)', 'P2': 'rgb(255,0,0)', 'P3': 'rgb(255,0,0)',
+                          'P4': 'rgb(255,0,0)'}
+    color_discrete_lks= {'P1': 'rgb(255,255,255)', 'P2': 'rgb(255,255,255)', 'P3': 'rgb(255,255,255)',
+                          'P4': 'rgb(255,255,255)'}
+    color_discrete_lks_ns= {'P1': 'rgb(0, 0, 99)', 'P2': 'rgb(0, 0, 99)', 'P3': 'rgb(0, 0, 99)',
+                          'P4': 'rgb(0, 0, 99)'}
     
-    usedat = citInfo[citInfo.Province_State.isin(states)]
-    usedat = usedat[usedat.Lat<uplat]
-    usedat = usedat[usedat.Lat>lowlat]
-    usedat = usedat[usedat.Long_>lowlon]
-    usedat = usedat[usedat.Long_<uplon]
-    usedat['Date']= pd.to_datetime(usedat['Date']).astype(str)
+    usepoly = allPoly.loc[allPoly.POLYGON == whichPolygon,:]
+    usepoly2 = usepoly.loc[usepoly.portion == 3,:]
+    if whichMap == 'sat':
+        fig = px.line_mapbox(
+            usepoly2,
+            lon = 'lat',
+            lat = 'lon',
+            zoom = 12,
+            color = 'POLYGON',
+            color_discrete_map=color_discrete_map
     
-
-    fig = px.scatter_mapbox(
-        usedat,
-        lat = 'Lat',
-        lon = 'Long_',
-        color = 'DailyNew',
-        size = 'Confirmed',
-        #color_continuous_scale=px.colors.sequential.Oranges, 
-        size_max = 25,
-        zoom = zoom,
-        animation_frame = 'Date',
-        animation_group = 'Combined_Key',
-        hover_name = 'Combined_Key',
-        hover_data = {'DailyNew'}
-        )
-    fig.update_layout(
-        autosize=False,
-        width=800,
-        height=800,
-        title_text=title,
-        mapbox=dict(
-           # accesstoken=mapbox_access_token,
-           # bearing=0,
-            center=go.layout.mapbox.Center(
-                lat=lat,
-                lon=lon
             )
-        ),
-        legend_orientation="h",
-        )
-    fig.update()
+        if usedat.shape[0]!=0:
+            fig2 = px.scatter_mapbox(usedat, lat="Latitude", lon="Longitude",  
+                          color = 'POLYGON', color_discrete_map = color_discrete_lks, size_max=15, zoom=11,
+                          hover_data = {'PolyLK'})
+            fig.add_trace(fig2.data[0])
+    elif whichMap != 'sat':
+        fig = px.line_mapbox(
+            usepoly2,
+            lon = 'lat',
+            lat = 'lon',
+            zoom = 12,
+            color = 'POLYGON',
+            color_discrete_map=color_discrete_map
+    
+            )
+        if usedat.shape[0]!=0:
+            fig2 = px.scatter_mapbox(usedat, lat="Latitude", lon="Longitude",  
+                          color = 'POLYGON', color_discrete_map = color_discrete_lks_ns, size_max=15, zoom=11,
+                          hover_data = {'PolyLK'})
+            fig.add_trace(fig2.data[0])
+            
 
+        
+    fig.update_layout(
+        autosize=True,
+        width = 800,
+        height = 800,
+        showlegend = False
+        )
+
+    fig.update()
+    if whichMap == "sat":
+        fig.update_layout(
+            mapbox_style="satellite-streets",
+ )
+    
+    
+    return fig
+
+@app.callback(
+    dash.dependencies.Output('opt-dropdown', 'options'),
+    [dash.dependencies.Input('whichPoly', 'value')]
+)
+def update_date_dropdown(name):
+    options=[{'label':i, 'value':i} for i in fnameDict[name]]
+    return options
+    #return ('options':[{'label': 1, 'value': 1},{'label': 2, 'value': 2},{'label': 3, 'value': 3},{'label': 4, 'value': 4}])
+
+
+@app.callback(dash.dependencies.Output('gapGraph', 'figure'),
+              [dash.dependencies.Input('whichPolyGap', 'value'),
+               dash.dependencies.Input('whichMap', 'value')
+               
+               ]
+              )
+def update_gapLeak(whichPolygon,whichMap):
+    usedat = allLeaks.loc[allLeaks.POLYGON == whichPolygon,:]    
+    usepoly = allPoly.loc[allPoly.POLYGON == whichPolygon,:]
+    usegap = allGaps.loc[allGaps.POLYGON == whichPolygon,:]
+    usepoly2 = usepoly.loc[usepoly.portion == 3,:]
+    
+    if whichMap == 'sat':
+        color_discrete_map = {'P1': 'rgb(255,0,0)', 'P2': 'rgb(255,0,0)', 'P3': 'rgb(255,0,0)',
+                              'P4': 'rgb(255,0,0)'}
+        color_discrete_lks= {'P1': 'rgb(255,255,255)', 'P2': 'rgb(255,255,255)', 'P3': 'rgb(255,255,255)',
+                              'P4': 'rgb(255,255,255)'}
+    elif whichMap != 'sat':
+        color_discrete_lks= {'P1': 'rgb(0, 0, 99)', 'P2': 'rgb(0, 0, 99)', 'P3': 'rgb(0, 0, 99)',
+                              'P4': 'rgb(0, 0, 99)'}
+        color_discrete_map = {'P1': 'rgb(255,0,0)', 'P2': 'rgb(255,0,0)', 'P3': 'rgb(255,0,0)',
+                              'P4': 'rgb(255,0,0)'}
+    
+    fig = px.line_mapbox(
+        usepoly2,
+        lon = 'lat',
+        lat = 'lon',
+        zoom = 12,
+        color = 'POLYGON',
+        color_discrete_map=color_discrete_map
+            )
+    
+    fig.update_layout(
+        autosize=True,
+        width = 800,
+        height = 800,
+        showlegend = False,
+        
+        )
+# =============================================================================
+#     for x in range(usegap.portion.drop_duplicates().size):
+#         i = x+1
+#         use = usegap.loc[usegap.portion == i,]
+#         fig.add_trace(
+#             px.line_mapbox(use,
+#                 lon = 'lon',
+#                 lat = 'lat',
+#                 zoom = 10,
+#                 color = 'POLYGON',
+#                 color_discrete_map=color_discrete_lks,
+#                 width = 10,
+#                 ).data[0],
+#                 
+#             
+#             )    
+# =============================================================================
+    if whichMap == "sat":
+        fig.update_layout(
+            mapbox_style="satellite-streets",
+ )
     return fig
 
 
-@app.callback(dash.dependencies.Output('projnameyo', 'children'),
-              [dash.dependencies.Input('whichProj','value')]             
-              )
-def update_textyo(whichproj):
-    nam = file[file.Project==whichproj].iloc[0]['Name']       
-    return "Project Name: " + nam 
+
+
+
+
+# =============================================================================
+# @app.callback(
+#     dash.dependencies.Output('hover-data-plot', 'figure'),
+#     [dash.dependencies.Input('leakGraph', 'hoverData'),
+#      dash.dependencies.Input('whichMap', 'value')])
+# def updatePlot(hoverData,whichMap):
+#      plk = hoverData['points'][0]['customdata'][0]
+#      dat = allLeaks[allLeaks.PolyLK==str(plk)]
+#      #dat=allLeaks
+#      title = "Leak " + str(int(dat.reset_index().LEAKNUM)) + '. '+ " Location: " + str(float(dat.reset_index().loc[0,['Longitude']])) + ',' + str(float(dat.reset_index().loc[0,['Latitude']]))
+#      fig = px.scatter_mapbox(dat, lat="Latitude", lon="Longitude", 
+#                    size_max=25, zoom=15,
+#                   hover_data = {'PolyLK'})
+#                                                   
+#      fig.update_layout(
+#         autosize=True,
+#         width = 800,
+#         height = 800,
+#         title =title
+#         )
+#      fig.update_traces(marker = dict(size = 20))
+#      
+#      if whichMap == "sat":
+#         fig.update_layout(
+#             mapbox_style="satellite-streets",
+#             )
+#      fig.update()
+#      return fig
+# =============================================================================
  
-    
-@app.callback(dash.dependencies.Output('countryName', 'children'),
-              [dash.dependencies.Input('whichCountry','value')]             
-              )
-def update_ct(whichcountry):
-    return "Country: " + str(whichcountry)
- 
-    
- 
-@app.callback(dash.dependencies.Output('projstatus', 'children'),
-              [dash.dependencies.Input('whichProj','value')]             
-              )
-def update_text2(whichproj):
-    stat = file[file.Project==whichproj].iloc[0]['Status']       
-    return "Project Status: " + stat 
-
-@app.callback(dash.dependencies.Output('states', 'children'),
-              [dash.dependencies.Input('whichProj','value')]             
-              )
-def update_text55(whichproj):
-    statez = file[file.Project==whichproj].iloc[0]['States']       
-    return "States the project is in: " + statez
-
-
-@app.callback(dash.dependencies.Output('business', 'children'),
-              [dash.dependencies.Input('whichProj','value')]             
-              )
-def update_text56(whichproj):
-    biz = file[file.Project==whichproj].iloc[0]['States']       
-    return "Business the project does:  " + biz
-
-
-
-@app.callback(dash.dependencies.Output('open-date', 'children'),
-              [dash.dependencies.Input('whichProj','value')]             
-              )
-def update_text4(whichproj):
-    stat = file[file.Project==whichproj].iloc[0]['openDate']       
-    return "Opening Date:" + stat 
-
-
-
-@app.callback(dash.dependencies.Output('countryStatus', 'children'),
-              [dash.dependencies.Input('whichCountry','value')]             
-              )
-def update_cstat(country):
-    return retorna_documento(country)
-
-
-
-    
-@app.callback(dash.dependencies.Output('country_graph', 'figure'),
-              [dash.dependencies.Input('whichCountry', 'value'),
-               dash.dependencies.Input('whichavgcountry','value'),
-               dash.dependencies.Input('popratiocountry','value')
-               ])
-
-def update_country_fig(input_value,which_avg,pop_rat):
-    df = countryLags[countryLags.Country_Region == input_value]
-    xvalsCases = df.Date
-    xvalsDeaths = df.Date
-    if input_value == 'US':
-        df = usLagOverall
-        df2 = countryLags[countryLags.Country_Region == input_value]
-        xvalsCases = df.Date
-        xvalsDeaths = df2.Date
-    if which_avg == 'sevenday':
-        yvalDeaths = df.death_7/7
-        if input_value == 'US':
-            yvalDeaths = df2.death_7/7
-        yvalCases = df.mean_7/7
-        title = 'Cases and Deaths (7 Day Avg), <br>' + input_value
-        yCaseTitle = "Cases"
-        yDeathTitle = "Deaths"
-    elif which_avg == 'threeday':
-        yvalDeaths = df.death_3/3
-        if input_value == 'US':
-            yvalDeaths = df2.death_3/3
-        yvalCases = df.mean_3/3
-        title = 'Cases and Deaths (3 Day Avg), <br>' + input_value
-        yCaseTitle = "Three-Day Cases"
-        yDeathTitle = "Three-Day Deaths"
-    elif which_avg == 'daily':
-        if input_value == "US":
-            yvalDeaths = df2.newDeath
-            yvalCases = df.confirmed_infectionsnz
-        elif input_value != "US":
-            yvalDeaths = df.newDeath
-            yvalCases = df.newConfirmed            
-        title = 'Cases and Deaths (Daily), <br>' + input_value
-        yCaseTitle = "Daily Cases"
-        yDeathTitle = "Daily Deaths"   
-    elif which_avg == 'total':
-        if input_value == "US":
-            yvalDeaths = df2.DeathCountry
-            yvalCases = df.totCases
-        elif which_avg != "US":
-            yvalDeaths = df.DeathCountry
-            yvalCases = df.ConfirmedCountry
-        title = 'Total Cases and Deaths, <br>' + input_value
-        yCaseTitle = "Total Cases"
-        yDeathTitle = "Total Deaths"
-    if pop_rat == 'relpop':
-        pop = float(df.Population.drop_duplicates())
-        if input_value == "Italy":
-            pop = 60.36e6
-        if input_value == "United Kingdom":
-            pop = 66.65e6
-        if input_value == "New Zealand":
-            pop = 4.886e6
-        
-        yvalDeaths = (yvalDeaths/pop)*1e5
-        yvalCases = (yvalCases/pop)*1e5
-        #title = title + 'per 100k people'
-        yCaseTitle = yCaseTitle + ' per 100k'
-        yDeathTitle = yDeathTitle + ' per 100k'
-
-    
-        
-    # Create traces
-    death_data = go.Scatter(
-         x= xvalsDeaths,
-         y= yvalDeaths,
-         name='Deaths',
-         yaxis = 'y2'
-     )
-    mean_data = go.Scatter(
-         x=xvalsCases,
-         y=yvalCases,
-         name='Cases'
-         # yaxis='y2'
-     )
-     # How do I integrate the layout?
-    layout = go.Layout(
-         title=title,
-         yaxis=dict(
-             title=yCaseTitle
-         ),
-         yaxis2=dict(
-             title=yDeathTitle,
-             overlaying='y',
-             side='right'
-         ),
-         legend_orientation="h",
-
-     )
-       
-    data = [mean_data,death_data]
-
-    return{
-        'data':data,
-        'layout': layout
-        }
-
 @app.callback(
-    dash.dependencies.Output('hover-data', 'children'),
-    [dash.dependencies.Input('projGraph', 'hoverData')])
-def display_hover_data(hoverData):
-    #return json.dumps(hoverData, indent=2)
-    return hoverData['points'][0]['id']
+    dash.dependencies.Output('hover-data-plot', 'figure'),
+    [dash.dependencies.Input('whichPoly', 'value'),
+     dash.dependencies.Input('opt-dropdown', 'value'),
+     dash.dependencies.Input('whichMap', 'value')
+     ])
+def updatePlot(whichPoly,whichLeak,whichMap):
+     #plk = hoverData['points'][0]['customdata'][0]
+     dat2 = allLeaks.loc[allLeaks.POLYGON == whichPoly,]
+     dat = dat2.loc[dat2.LEAKNUM == whichLeak,]
+     if whichMap == 'sat':
+        color_discrete_map = {'P1': 'rgb(255,0,0)', 'P2': 'rgb(255,0,0)', 'P3': 'rgb(255,0,0)',
+                              'P4': 'rgb(255,0,0)'}
+        color_discrete_lks= {'P1': 'rgb(255,255,255)', 'P2': 'rgb(255,255,255)', 'P3': 'rgb(255,255,255)',
+                              'P4': 'rgb(255,255,255)'}
+     elif whichMap != 'sat':
+         color_discrete_lks= {'P1': 'rgb(0, 0, 99)', 'P2': 'rgb(0, 0, 99)', 'P3': 'rgb(0, 0, 99)',
+                              'P4': 'rgb(0, 0, 99)'}
+         color_discrete_map = {'P1': 'rgb(255,0,0)', 'P2': 'rgb(255,0,0)', 'P3': 'rgb(255,0,0)',
+                              'P4': 'rgb(255,0,0)'}
+     #dat = allLeaks[allLeaks.PolyLK==str(plk)]
+     #dat=allLeaks
+     title = "Leak " + str(whichLeak) + '. '+ " Location: " + str(float(dat.reset_index().loc[0,['Latitude']])) + ',' + str(float(dat.reset_index().loc[0,['Longitude']]))
+     fig = px.scatter_mapbox(dat, lat="Latitude", lon="Longitude", 
+                   size_max=25, zoom=15,
+                  hover_data = {'PolyLK'},
+                  color = 'POLYGON',
+                  color_discrete_map=color_discrete_lks
+
+                  
+                  
+                  )
+                                                  
+     fig.update_layout(
+        autosize=True,
+        width = 800,
+        height = 800,
+        title =title
+        )
+     fig.update_traces(marker = dict(size = 20))
+     
+     if whichMap == "sat":
+        fig.update_layout(
+            mapbox_style="satellite-streets",
+            )
+     fig.update()
+     return fig
+ 
+@app.callback(
+    dash.dependencies.Output('map_dir', 'href'),
+    [dash.dependencies.Input('whichPoly', 'value'),
+     dash.dependencies.Input('opt-dropdown', 'value'),
+     ])
+def giveURL(whichPoly,whichLeak):
+    dat2 = allLeaks.loc[allLeaks.POLYGON == whichPoly,]
+    dat = dat2.loc[dat2.LEAKNUM == whichLeak,]
+    
+    lon = str(float(dat.Longitude))
+    lat = str(float(dat.Latitude))
+    
+    url = 'https://www.google.com/maps/dir//' + lat + ',' + lon + '/@' + lat + ',' + lon + ',13z/data=!4m7!4m6!1m0!1m3!2m2!1d-86.5940475!2d33.7491112!3e0'
+    return(url)
+
 
 
 @app.callback(
-    dash.dependencies.Output('click-data', 'children'),
-    [dash.dependencies.Input('projGraph', 'clickData')])
-def display_click_data(clickData):
-    return json.dumps(clickData, indent=2)
-
-
-
-
-    
-@app.callback(dash.dependencies.Output('cityGraph','figure'),
-              [dash.dependencies.Input('projGraph','hoverData'),
-               dash.dependencies.Input('whichavg','value'),
-               dash.dependencies.Input('popratio', 'value')
-               ]             
+    dash.dependencies.Output('hover-data-info', 'children'),
+    [dash.dependencies.Input('leakGraph', 'hoverData')])
+def updatename(hoverData):
+     plk = hoverData['points'][0]['customdata']
+     title = plk
+     return title
+ 
+@app.callback(dash.dependencies.Output('polygon', 'children'),
+              [dash.dependencies.Input('whichPoly', 'value')]
               )
+def updateText(whichPolygon):
+    return "Polygon " + str(whichPolygon[1:])
 
-def update_city_fig2(input_value2,which_avg,pop_rat):
-    input_value = input_value2['points'][0]['id']
-    df = citLags[citLags.Combined_Key == input_value]
+@app.callback(dash.dependencies.Output('polygonLks', 'children'),
+              [dash.dependencies.Input('whichPoly', 'value')]
+              )
+def updatePolyLk(whichPolygon):
+    dat = allLeaks[allLeaks.POLYGON==str(whichPolygon)]
+    return "Number of Leaks: " + str(dat.shape[0])
+
     
-    if which_avg == 'sevenday':
-        xvals = df.Date
-        yvalDeaths = df.death_7/7
-        yvalCases = df.mean_7/7
-        title = 'Cases and Deaths (7 Day Avg), <br>' + input_value
-        yCaseTitle = " Cases"
-        yDeathTitle = " Deaths"
-    elif which_avg == 'threeday':
-        xvals = df.Date
-        yvalDeaths = df.death_3/3
-        yvalCases = df.mean_3/3
-        title = 'Cases and Deaths (3 Day Avg), <br> ' + input_value
-        yCaseTitle = " Cases"
-        yDeathTitle = " Deaths"
-    elif which_avg == 'daily':
-        xvals = df.Date
-        yvalDeaths = df.newDeath
-        yvalCases = df.newConfirmed
-        title = 'Cases and Deaths (Daily), <br>' + input_value
-        yCaseTitle = "Daily Cases"
-        yDeathTitle = "Daily Deaths"   
-    elif which_avg == 'total':
-        xvals = df.Date
-        yvalDeaths = df.Deaths
-        yvalCases = df.Confirmed
-        title = 'Total Cases and Deaths, ' + input_value
-        yCaseTitle = "Total Cases"
-        yDeathTitle = "Total Deaths"
-    if pop_rat == 'relpop':
-        yvalDeaths = (yvalDeaths/df.Population)*1e5
-        yvalCases = (yvalCases/df.Population)*1e5
-        #title = title + 'per 100k people'
-        yCaseTitle = yCaseTitle + ' per 100k'
-        yDeathTitle = yDeathTitle + ' per 100k'
-    
-    
-        
-    # Create traces
-    death_data = go.Scatter(
-         x= xvals,
-         y= yvalDeaths,
-         name='Deaths',
-         yaxis = 'y2'
-     )
-    mean_data = go.Scatter(
-         x=xvals,
-         y=yvalCases,
-         name='Cases'
-         # yaxis='y2'
-     )
-     # How do I integrate the layout?
-    layout = go.Layout(
-         title=title,
-         yaxis=dict(
-             title=yCaseTitle,
-             range = [0,yvalCases.max()]
-         ),
-         yaxis2=dict(
-             title=yDeathTitle,
-             overlaying='y',
-             side='right',
-             range = [0,yvalDeaths.max()]
-         ),
-         legend_orientation="h",
-
-         
-     )
-       
-    data = [mean_data,death_data]
-
-    return{
-        'data':data,
-        'layout': layout
-        }
-
-
-
 if __name__ == '__main__':
     app.run_server(debug=False)
+
+
+
+                
