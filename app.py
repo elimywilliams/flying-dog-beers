@@ -520,7 +520,7 @@ def update_date_dropdown(name):
 def update_gapLeak(whichPolygon,whichMap):
     usedat = allLeaks.loc[allLeaks.POLYGON == whichPolygon,:]    
     usepoly = allPoly.loc[allPoly.POLYGON == whichPolygon,:]
-    usegap = allGaps.loc[allGaps.POLYGON == whichPolygon,:]
+    #usegap = allGaps.loc[allGaps.POLYGON == whichPolygon,:]
     usepoly2 = usepoly.loc[usepoly.portion == 3,:]
     
     if whichMap == 'sat':
