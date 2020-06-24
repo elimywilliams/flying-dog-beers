@@ -146,7 +146,7 @@ projOPTS = [
             
             {'label': 'Duke IPI', 'value': 'DukeIPI'},
             {'label': 'Duke Ohio', 'value': 'DukeOH'},
-            {'label': 'Norwhich Public Utilities', 'value': 'norwhich'},
+            {'label': 'Norwich Public Utilities', 'value': 'norwhich'},
 
             {'label': 'Peoples (IL)', 'value': 'PeoplesIL'},
             #{'label': 'Trussville (AL)', 'value': 'Trussville'},
