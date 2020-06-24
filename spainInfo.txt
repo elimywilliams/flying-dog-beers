@@ -1,8 +1,8 @@
 
 
 <ul>
-<li> State of Alarm until June 21</li>
 <li>Masks are required to be worn in public</li>
-<li>European Schengen zone is not allowing outsiders</li>
-<li> Spains land borders still closed </li>
+<li> Open to EU citizens as of June 21 </li>
+<li> Border to Portugal closed until at least June 30 </li>
+<li> Starting July 1, certain countries will be allowed to enter </li>
 </ul>
