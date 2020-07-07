@@ -139,7 +139,7 @@ projOPTS = [
             {'label': 'Con Edison', 'value': 'ConEd'},
             #{'label': 'CPS (TX)', 'value': 'CPS_TX'},
 
-            {'label': 'Dom Questar (UT)', 'value': 'DomQuest'},
+            #{'label': 'Dom Questar (UT)', 'value': 'DomQuest'},
             
             #{'label': 'Dominion (NC)', 'value': 'DominionNC'},
             #{'label': 'Dominion (SC)', 'value': 'DominionSC'},
